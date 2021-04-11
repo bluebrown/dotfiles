@@ -1,0 +1,3 @@
+[submodule "vim-alpine"]
+	path = vim-alpine
+	url = https://github.com/bluebrown/vim-alpine
