@@ -14,3 +14,8 @@ if [ -d "$HOME/.vim" ] ; then
 fi
 
 cp -r vim-alpine ~/.vim
+
+
+git config --global user.email "nico-braun@live.de"
+git config --global user.name "Nico Braun"
+
