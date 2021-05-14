@@ -1,9 +1,6 @@
 # Dotfiles
 
 ```bash
-git clone --recursive https://github.com/bluebrown/dotfiles ~/.config
-cd ~/.config
-chmod 755 ./setup.sh
-./setup.sh
+curl -s https://raw.githubusercontent.com/bluebrown/dotfiles/main/curl-install.sh | bash
 source ~/.bashrc
 ```
