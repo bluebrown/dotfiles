@@ -32,8 +32,7 @@ alias foo="echo 'baz'"
 
 # functions
 
-function pwd() {
-    range="$1"
-    if [ -z "${range}" ]; then range='[:graph:]'; fi
-    < /dev/urandom tr -cd "$range" | head -c 32; echo
+function randpwd() {
+    < /dev/urandom tr -cd "${1:-'[:graph:]'}" | 
+        head -c ${2:-32}; echo
 }
