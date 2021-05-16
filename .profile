@@ -29,10 +29,11 @@ alias ans="ansible"
 alias ap="ansible-playbook"
 alias tf="terraform"
 alias foo="echo 'baz'"
+alias sc="socat"
 
 # functions
 
 function randpwd() {
     < /dev/urandom tr -cd "${1:-'[:graph:]'}" | 
-        head -c ${2:-32}; echo
+        head -c "${2:-32}"; echo
 }

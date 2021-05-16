@@ -4,7 +4,7 @@ set -ex
 
 mkdir -p  ~/.backup
 
-yes y | source <(curl -fsSL https://starship.rs/install.sh)
+curl -fsSL https://starship.rs/install.sh  | bash
 
 sed -i '/.config/d' ~/.bashrc
 echo "source ~/.config/.profile" >> ~/.bashrc
@@ -17,3 +17,5 @@ cp -r vim-alpine ~/.vim
 
 git config --global user.email "nico-braun@live.de"
 git config --global user.name "Nico Braun"
+
+echo "Setup completed."
