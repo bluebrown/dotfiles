@@ -4,13 +4,17 @@ set -ex
 
 mkdir -p  ~/.backup
 
+my_link="$HOME/.tmux.conf"
+[ -L ${my_link} ] && unlink "$my_link"
+ln -s $PWD/tmux/tmux.conf "$my_link"
+
 curl -fsSL https://starship.rs/install.sh  | bash
 
-sed -i '/.config/d' ~/.bashrc
-echo "source ~/.config/.profile" >> ~/.bashrc
+sed -i '/.config/d' "$HOME/.bashrc"
+echo "source $PWD/.profile" >> "$HOME/.bashrc"
 
 if [ -d "$HOME/.vim" ] ; then
-    mv ~/.vim ~/.backup/.vim."$(date +"%FT%TZ")"
+    mv "$HOME/.vim" "$HOME/.backup/.vim.$(date +'%FT%TZ')"
 fi
 
 cp -r vim-alpine ~/.vim
