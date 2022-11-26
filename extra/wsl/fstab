@@ -1,0 +1,3 @@
+# in wsl2, the below may be required to make cgroups v2 work properly
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime,nsdelegate 0 0
+

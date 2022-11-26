@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# create auto completion with the below command:
+# kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+
+# source the original completion file
+source /etc/bash_completion.d/kubectl
+# add the alias via complete -F
+complete -F __start_kubectl k
+# __start_kubectl was found via:
+# complete -p | grep kubectl

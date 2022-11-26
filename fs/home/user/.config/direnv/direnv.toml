@@ -1,0 +1,4 @@
+[global]
+# load .env files automatically,
+# if no .envrc is present
+load_dotenv = true

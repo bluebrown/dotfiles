@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# create auto completion with the below command:
+# kustomize completion bash | sudo tee /etc/bash_completion.d/kustomize > /dev/null
+
+# source the original completion file
+source /etc/bash_completion.d/kustomize
+# add the alias via complete -F
+complete -F __start_kustomize kz
+# __start_kustomize was found via:
+# complete -p | grep kustomize

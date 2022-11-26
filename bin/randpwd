@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+tr </dev/urandom -cd "[:graph:]" | head -c 32
+echo
