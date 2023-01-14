@@ -7,7 +7,10 @@ latest_tag() {
 }
 
 # base packages
-sudo apt-get -y install gcc g++ build-essential
+sudo apt-get -y install curl gcc g++ build-essential net-tools rsync man vim wget
+
+# get a color scheme for vim
+git clone --depth 1 --recursive https://github.com/joshdick/onedark.vim ~/.vim/pack/appearance/opt/onedark.vim
 
 # starship prompt
 sudo sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes --bin-dir /usr/local/bin
@@ -38,3 +41,4 @@ tag="$(latest_tag junegunn/fzf)"
 curl -fsSL "https://github.com/junegunn/fzf/releases/download/$tag/fzf-$tag-linux_amd64.tar.gz" | sudo tar -C /usr/local/bin/ -xzf - fzf
 sudo curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf/$tag/bin/fzf-tmux" -o /usr/local/bin/fzf-tmux
 sudo chmod +x /usr/local/bin/fzf-tmux
+

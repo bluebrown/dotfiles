@@ -25,7 +25,7 @@ set incsearch hlsearch ignorecase smartcase wrapscan
 
 " visuals
 set termguicolors
-set title
+set notitle
 set number relativenumber ruler scrolloff=8
 set list listchars=tab:\|\ ,trail:▫
 set report=0

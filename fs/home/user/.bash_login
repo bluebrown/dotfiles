@@ -7,6 +7,3 @@ fi
 eval "$(starship init bash)"
 
 eval "$(direnv hook bash)"
-
-# make cargo respect XDG
-export CARGO_HOME="$HOME/.local"
