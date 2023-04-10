@@ -3,9 +3,9 @@ set -o nounset -o errexit -o errtrace -o pipefail
 
 : "${KUBE_VERSION:=1.24.6}"
 
-helm_version=3.10.2
-kpt_version=1.0.0-beta.22
-kind_version=0.17.0
+helm_version=3.11.2
+kpt_version=1.0.0-beta.30
+kind_version=0.18.0
 
 # kubectl
 sudo curl -fsSL "https://dl.k8s.io/release/v${KUBE_VERSION}/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl
