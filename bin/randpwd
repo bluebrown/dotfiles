@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+set -o nounset -o errexit -o errtrace -o pipefail
 
-tr </dev/urandom -cd "[:graph:]" | head -c 32
+head -c 24 </dev/urandom | base64 -w0 | tr '+/' '-_' | tr -d '='
 echo

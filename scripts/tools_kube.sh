@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-set -euo pipefail
+set -o nounset -o errexit -o errtrace -o pipefail
 
 : "${KUBE_VERSION:=1.24.6}"
 

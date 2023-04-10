@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-set -euo pipefail
+set -o nounset -o errexit -o errtrace -o pipefail
 
 # install latest nvim
 find /usr/local -type d -name nvim -print0 | xargs -r -0 sudo rm -rf

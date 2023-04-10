@@ -1,12 +1,12 @@
 {
-    "recommendations": [
-        "editorconfig.editorconfig",
-        "foxundermoon.shell-format",
-        "gruntfuggly.todo-tree",
-        "humao.rest-client",
-        "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "redhat.vscode-yaml",
-        "streetsidesoftware.code-spell-checker",
-        "timonwong.shellcheck",
-    ]
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "editorconfig.editorconfig",
+    "timonwong.shellcheck",
+    "gruntfuggly.todo-tree",
+    "foxundermoon.shell-format",
+    "redhat.vscode-yaml",
+    "humao.rest-client",
+    "ms-kubernetes-tools.vscode-kubernetes-tools"
+  ]
 }

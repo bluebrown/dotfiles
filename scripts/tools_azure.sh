@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-set -euo pipefail
+set -o nounset -o errexit -o errtrace -o pipefail
 
 # az cli
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
