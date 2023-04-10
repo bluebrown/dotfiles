@@ -1,16 +1,33 @@
 services:
   box:
+    # build the basic dev container image
+    # if you need more tools inside, modify the image first
     build:
       context: ./
       dockerfile: Dockerfile.dev
+      # these need to be set to your local users uid:gid
+      args:
+        uid: "1000"
+        gid: "1000"
+
+    # sleep forever on container start so that we
+    # exec into it in order to do development
     entrypoint:
       - sleep
     command:
       - infinity
+
+    # using init to reap all processes. Since sleep is pid 1
     init: true
+
+    # mounting to the docker socket in order to allow running
+    # docker commands from withing the dev container
     volumes:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+
+    # publish the classic 8080 port in case we want to run
+    # some network app inside the dev container
     ports:
       - 127.0.0.1:8080:8080
