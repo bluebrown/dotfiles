@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit -o errtrace -o pipefail
+
+usage="$(basename "$0") [-hv] [-r resource] [-s scope]
+"
+description="Request an access token from azure for the provided resource/scope.
+If no resource and scope are specified a generic token is requested
+"
+options="
+  -r        resource to request access to (default: '${resource:=https://management.azure.com/}')
+  -s        scope to request access to (default: '${scope:=}')
+  -d        enable debug mode
+  -h        print this help text
+"
+
+environment="
+  AZ_TENANT_ID        Azure tenant id (required)
+  AZ_CLIENT_ID        Azure active directory service principal client id (required)
+  AZ_CLIENT_SECRET    Azure active directory service principal client secret (required)
+"
+
+die() {
+  echo -en "\n$1"
+  exit 1
+}
+
+usage_txt="Usage: $usage"
+help_txt="Usage: $usage\n$description\nOptions:${options}\nEnv Variables:$environment"
+
+while getopts ':hr:s:d' opt; do
+  case "$opt" in
+  r) resource="$OPTARG" ;;
+  s) scope="$OPTARG" ;;
+  d) debug="1" ;;
+  h) die "$help_txt" ;;
+  ?) die "$usage_txt" ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+
+if [ -z "${AZ_TENANT_ID:=}" ] || [ -z "${AZ_CLIENT_ID:=}" ] || [ -z "${AZ_CLIENT_SECRET:=}" ]; then
+  die "$help_txt"
+fi
+
+token_endpoint="https://login.microsoftonline.com/${AZ_TENANT_ID}/oauth2/token"
+grant_type=client_credentials
+client_id="${AZ_CLIENT_ID}"
+client_secret="${AZ_CLIENT_SECRET}"
+
+query="grant_type=$grant_type&client_id=$client_id&client_secret=$client_secret&resource=$resource&scope=$scope"
+
+mkfifo /tmp/response
+trap 'rm /tmp/response' EXIT
+
+curl -fsSL \
+  --request POST \
+  --url "$token_endpoint" \
+  --header "Content-Type: application/x-www-form-urlencoded" \
+  --data "$query" \
+  -o /tmp/response \
+  ${debug+-v} 1>&2 &
+
+jq -r '.access_token' /tmp/response
