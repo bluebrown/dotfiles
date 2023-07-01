@@ -6,7 +6,7 @@ latest_tag() {
 }
 
 # base packages
-sudo apt-get -y install curl gcc g++ build-essential net-tools rsync man vim wget
+sudo apt-get -y install curl gcc g++ build-essential net-tools rsync man vim wget bash-completion
 
 # get a color scheme for vim, if it doesnt exist
 if ! test -d ~/.vim/pack/appearance/opt/onedark.vim; then
