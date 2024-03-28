@@ -1,0 +1,40 @@
+#!/bin/bash
+
+script_dir="$(dirname "$(readlink -f "$0")")"
+port=4325
+
+function cmd_mux() {
+  # shellcheck disable=SC2046
+  set - $(cat - | xargs)
+
+  if [ $# -lt 1 ]; then
+    echo "No arguments received"
+    exit 1
+  fi
+
+  cmd=$1
+  shift
+
+  exec $cmd "$@"
+}
+
+function cmd_listen() {
+  socat "TCP4-LISTEN:$port",fork,reuseaddr "system:$script_dir/netcli.sh"
+}
+
+function cmd_exec() {
+  echo "$@" | socat "tcp:localhost:$port" -
+}
+
+if [ $# -lt 1 ]; then
+  cmd_mux
+elif [ "$1" = "listen" ]; then
+  shift
+  cmd_listen "$@"
+elif [ "$1" = "exec" ]; then
+  shift
+  cmd_exec "$@"
+else
+  echo "Unknown command: $1"
+  echo "Usage: netcli.sh [exec|listen]"
+fi

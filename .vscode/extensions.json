@@ -1,12 +1,18 @@
 {
   "recommendations": [
-    "streetsidesoftware.code-spell-checker",
     "editorconfig.editorconfig",
-    "timonwong.shellcheck",
-    "gruntfuggly.todo-tree",
     "foxundermoon.shell-format",
-    "redhat.vscode-yaml",
+    "golang.go",
+    "gruntfuggly.todo-tree",
+    "hashicorp.terraform",
     "humao.rest-client",
-    "ms-kubernetes-tools.vscode-kubernetes-tools"
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "redhat.vscode-yaml",
+    "stkb.rewrap",
+    "streetsidesoftware.code-spell-checker",
+    "tamasfe.even-better-toml",
+    "timonwong.shellcheck",
+    "tyriar.sort-lines",
+    "yzhang.markdown-all-in-one",
   ]
 }

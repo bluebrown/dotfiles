@@ -32,6 +32,9 @@ set report=0
 set foldcolumn=2
 set laststatus=2 display=lastline
 set showmode showcmd
+let &t_SI = "\e[6 q"      " line cursor in insert mode
+let &t_EI = "\e[2 q"      " block cursor everywhere else
+let &t_SR = "\<esc>[4 q"  " underline in replace mode
 
 " correct typos
 cnoreabbrev W! w!
@@ -117,4 +120,15 @@ endfunction
 
 set noshowmode laststatus=2
 set statusline=%!MyStatusline()
+
+" WIP
+
+" ff is aliased to `fd --type f --hidden --exclude .git --print0 | fzf-tmux -p -- --read0 --print0 --exit-0 | xargs -r -0 -o ${EDITOR:-vim}'
+
+" fuzzy finder
+function! FindFuzzy(dir)
+  :execute "!fd --type f " . a:dir . " | fzf-tmux"
+endfunction
+
+:command! -nargs=1 FindFuzzy :call FindFuzzy(<q-args>)
 

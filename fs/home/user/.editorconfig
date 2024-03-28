@@ -15,5 +15,8 @@ trim_trailing_whitespace = false
 indent_size = 4
 indent_style = tab
 
-[*.{go,py}]
+[*.{go,zig,py}]
 indent_size = 4
+
+[*.go]
+indent_style = tab

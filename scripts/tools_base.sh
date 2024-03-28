@@ -6,18 +6,10 @@ latest_tag() {
 }
 
 # base packages
-sudo apt-get -y install curl gcc g++ build-essential net-tools rsync man vim wget bash-completion
-
-# get a color scheme for vim, if it doesnt exist
-if ! test -d ~/.vim/pack/appearance/opt/onedark.vim; then
-  git clone --depth 1 --recursive https://github.com/joshdick/onedark.vim ~/.vim/pack/appearance/opt/onedark.vim
-fi
+sudo apt-get -y install curl git gcc g++ build-essential man bash-completion net-tools rsync vim tmux parallel entr
 
 # starship prompt
 sudo sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- --yes --bin-dir /usr/local/bin
-
-# tmux
-sudo apt-get -y install tmux
 
 # jq
 curl -fsSL https://github.com/stedolan/jq/releases/latest/download/jq-linux64 |
@@ -42,3 +34,8 @@ tag="$(latest_tag junegunn/fzf)"
 curl -fsSL "https://github.com/junegunn/fzf/releases/download/$tag/fzf-$tag-linux_amd64.tar.gz" | sudo tar -C /usr/local/bin/ -xzf - fzf
 sudo curl -fsSL "https://raw.githubusercontent.com/junegunn/fzf/$tag/bin/fzf-tmux" -o /usr/local/bin/fzf-tmux
 sudo chmod +x /usr/local/bin/fzf-tmux
+
+# get a color scheme for vim, if it doesnt exist
+if ! test -d ~/.vim/pack/appearance/opt/onedark.vim; then
+  git clone --depth 1 --recursive https://github.com/joshdick/onedark.vim ~/.vim/pack/appearance/opt/onedark.vim
+fi
