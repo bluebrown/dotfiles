@@ -21,12 +21,13 @@ COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/
 RUN groupadd docker && usermod -aG docker dev
 
 # switch to the user, switch to its home dir and enable the login shell
-USER "$uid"
+USER $uid
 WORKDIR /usr/home/dev
 CMD ["/bin/bash", "-l"]
 
 # setup the dotfiles and devtools for the dev user
-RUN git clone https://github.com/bluebrown/dotfiles.git
+ARG dots_version=main
+RUN git clone -b $dots_version --depth 1 https://github.com/bluebrown/dotfiles.git
 WORKDIR /usr/home/dev/dotfiles
 RUN make deps
 RUN make tools-base

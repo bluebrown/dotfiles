@@ -5,11 +5,11 @@ SHELL := /bin/bash
 
 ##@ Options
 
-VERBOSE ?= 0
+verbose ?= 0
 prefix ?= $(HOME)/.local
-bindir ?= $(prefix)/bin
+bindir = $(prefix)/bin
 
-ifneq ($(VERBOSE),1)
+ifneq ($(verbose),1)
 .SILENT:
 endif
 
@@ -22,14 +22,9 @@ endef
 help: makehelp ## Show this help message
 	@makehelp $(MAKEFILE_LIST)
 
-all: deps ## Install everything, requires sudo access
+install: deps ## Install everything, requires sudo access
 	$(MAKE) runtimes
 	$(MAKE) tools
-	$(MAKE) config
-
-
-devcontainer: deps-apt ## lightweight setup for devcontainers
-	$(MAKE) tools-base
 	$(MAKE) config
 
 deps: deps-apt ## Install all dependencies
