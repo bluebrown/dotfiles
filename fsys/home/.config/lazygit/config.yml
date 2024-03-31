@@ -5,4 +5,5 @@ os:
   editPreset: nvim
 gui:
   nerdFontsVersion: 3
+  showBottomLine: false
 
