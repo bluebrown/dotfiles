@@ -8,7 +8,6 @@ SHELL := /bin/bash
 VERBOSE ?= 0
 prefix ?= $(HOME)/.local
 bindir ?= $(prefix)/bin
-nprocs ?= $(shell nproc)
 
 ifneq ($(VERBOSE),1)
 .SILENT:
@@ -23,13 +22,29 @@ endef
 help: makehelp ## Show this help message
 	@makehelp $(MAKEFILE_LIST)
 
-all: deps runtimes tools ## Install everything, requires sudo access
+all: deps ## Install everything, requires sudo access
+	$(MAKE) runtimes
+	$(MAKE) tools
+	$(MAKE) config
+
+
+devcontainer: deps-apt ## lightweight setup for devcontainers
+	$(MAKE) tools-base
+	$(MAKE) config
 
 deps: deps-apt ## Install all dependencies
 
 runtimes: node go ## Install runtimes, requires sudo access
 
 tools: tools-base tools-k8s ## Install all tools
+
+config: config-home ## Sync config files
+
+##@ Config files
+
+config-home: ## sync the fsys/home dir to the user's home directory
+	mkdir -p ~/.bash_completion.d
+	rsync -av fsys/home/ ~
 
 ###@ Dependencies
 
@@ -123,7 +138,7 @@ $(bindir)/tmux:
 	mkdir -p $(bindir)
 	$(eval $@_tag = $(call latest_tag,tmux/tmux))
 	curl -fsSL "https://github.com/tmux/tmux/releases/download/$($@_tag)/tmux-$($@_tag).tar.gz" | tar -xz
-	cd tmux-$($@_tag) && ./configure --prefix=$(prefix) && make -j$(nprocs) && make install
+	cd tmux-$($@_tag) && ./configure --prefix=$(prefix) && $(MAKE) && $(MAKE) install
 	rm -rf tmux-$($@_tag)
 
 nvim: $(bindir)/nvim ## code editor
@@ -151,6 +166,9 @@ $(bindir)/kubectl:
 	curl -fsSLO "https://dl.k8s.io/release/$(shell curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 	install kubectl $(bindir)/kubectl
 	rm -f kubectl
+	mkdir -p ~/.bash_completion.d
+	$(bindir)/kubectl completion bash > ~/.bash_completion.d/kubectl
+	printf "\ncomplete -F __start_kubectl k\n" >> ~/.bash_completion.d/kubectl
 
 kind: $(bindir)/kind ## kubernetes in docker
 $(bindir)/kind:

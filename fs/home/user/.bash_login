@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -f "$HOME/.bashrc" ]; then
-  . "$HOME/.bashrc"
-fi
-
-eval "$(starship init bash)"
-
-eval "$(direnv hook bash)"

@@ -1,8 +1,8 @@
-ARG base=ubuntu
+ARG base=debian:bookworm-slim
 FROM ${base}
 
 # install so core packages required to make it all work
-RUN apt-get -y update && apt-get -y install sudo curl git
+RUN apt-get -y update && apt-get -y install sudo curl git make
 
 # the uid and gid should correspond to the local user.
 # this ensures proper permissions when mounting directories
@@ -27,7 +27,7 @@ CMD ["/bin/bash", "-l"]
 
 # setup the dotfiles and devtools for the dev user
 RUN git clone https://github.com/bluebrown/dotfiles.git
-RUN cd dotfiles \
-  && bash scripts/tools_base.sh \
-  && bash scripts/configure.sh
-
+WORKDIR /usr/home/dev/dotfiles
+RUN make deps
+RUN make tools-base
+RUN make config-home

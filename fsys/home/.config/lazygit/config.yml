@@ -1,0 +1,8 @@
+git:
+  commit:
+    signOff: true
+os:
+  editPreset: nvim
+gui:
+  nerdFontsVersion: 3
+
