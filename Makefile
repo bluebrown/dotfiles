@@ -29,13 +29,14 @@ deps: deps-apt ## Install all dependencies
 
 runtimes: node go ## Install runtimes, requires sudo access
 
-tools: tools-base ## Install all tools
+tools: tools-base tools-k8s ## Install all tools
 
 ###@ Dependencies
 
-pkgs_base = build-essential bison pkg-config curl git jq
+pkgs_base = build-essential bison pkg-config curl git jq unzip xz-utils
 pkgs_tmux = libevent-dev ncurses-dev
 pkgs_dev  = man bash-completion net-tools rsync parallel entr
+pkgs_net = dnsutils iputils-ping netcat-openbsd nmap socat tcpdump traceroute
 
 deps-apt: ## Install apt dependencies
 	sudo apt-get update
@@ -139,4 +140,22 @@ $(bindir)/lazygit:
 	curl -fsSL -o lazygit.tgz "https://github.com/jesseduffield/lazygit/releases/download/$($@_tag)/lazygit_$(subst v,,$($@_tag))_Linux_x86_64.tar.gz"
 	tar -xzf lazygit.tgz -C $(bindir) -- lazygit
 	rm -f lazygit.tgz
+
+###@ Kubernetes tools
+
+tools-k8s: kubectl kind ## Install kubernetes tools
+
+kubectl: $(bindir)/kubectl ## kubernetes cli
+$(bindir)/kubectl:
+	mkdir -p $(bindir)
+	curl -fsSLO "https://dl.k8s.io/release/$(shell curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+	install kubectl $(bindir)/kubectl
+	rm -f kubectl
+
+kind: $(bindir)/kind ## kubernetes in docker
+$(bindir)/kind:
+	mkdir -p $(bindir)
+	curl -fsSL -o kind https://github.com/kubernetes-sigs/kind/releases/latest/download/kind-linux-amd64
+	install kind $(bindir)/kind
+	rm -f kind
 
