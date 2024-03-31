@@ -26,9 +26,11 @@ WORKDIR /usr/home/dev
 CMD ["/bin/bash", "-l"]
 
 # setup the dotfiles and devtools for the dev user
-ARG dots_version=main
-RUN git clone -b $dots_version --depth 1 https://github.com/bluebrown/dotfiles.git
 WORKDIR /usr/home/dev/dotfiles
+ARG dots_version=main
+RUN git clone https://github.com/bluebrown/dotfiles.git .
+RUN git checkout $dots_version
 RUN make deps
 RUN make tools-base
 RUN make config-home
+
