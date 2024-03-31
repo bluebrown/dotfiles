@@ -11,10 +11,11 @@ PATH="$PATH:$HOME/.local/bin"
 PATH="$(printf %s "$PATH" | awk -vRS=: '!a[$0]++' | paste -s -d:)"
 export PATH
 
+export EDITOR=nvim
+
 eval "$(starship init bash)"
 eval "$(direnv hook bash)"
 
-# enter tmux if it exists
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
