@@ -15,6 +15,7 @@ export EDITOR=nvim
 
 eval "$(starship init bash)"
 eval "$(direnv hook bash)"
+eval "$(fzf --bash)"
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
