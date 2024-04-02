@@ -129,6 +129,7 @@ require("lazy").setup({
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+      { dir = vim.fn.stdpath("config") .. "/lua/teleskube.nvim" },
     },
     config = function()
       require("telescope").setup({
@@ -152,6 +153,11 @@ require("lazy").setup({
 
       pcall(require("telescope").load_extension, "fzf")
       pcall(require("telescope").load_extension, "ui-select")
+      require("telescope").load_extension("kube")
+
+      local extensions = require("telescope").extensions
+      vim.keymap.set("n", "<leader>kc", extensions.kube.use_context, { desc = "[K]ube [C]ontext" })
+      vim.keymap.set("n", "<leader>kn", extensions.kube.use_namespace, { desc = "[K]ube [N]amespace" })
 
       local builtin = require("telescope.builtin")
       vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
