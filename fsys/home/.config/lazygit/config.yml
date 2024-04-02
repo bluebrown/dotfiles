@@ -2,7 +2,8 @@ git:
   commit:
     signOff: true
 os:
-  editPreset: nvim
+  editProfile: nvim
+  open: tmux splitw -h nvim {{filename}}
 gui:
   nerdFontsVersion: 3
   showBottomLine: false
