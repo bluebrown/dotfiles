@@ -40,6 +40,8 @@ config: config-home ## Sync config files
 config-home: ## sync the fsys/home dir to the user's home directory
 	mkdir -p ~/.bash_completion.d
 	rsync -av fsys/home/ ~
+	if ! git config --global user.name '$(GIT_USER_NAME)'; then echo '$$GIT_USER_NAME not set'; fi
+	if ! git config --global user.email '$(GIT_USER_EMAIL)'; then echo '$$GIT_USER_EMAIL not set'; fi
 
 ###@ Dependencies
 
