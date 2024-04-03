@@ -1,6 +1,8 @@
 local M = {}
 
-M.setup = function(...)
+M.setup = function(opts)
+	local opts = opts or {}
+
 	require("conform").setup({
 		notify_on_error = false,
 		format_on_save = function(bufnr)
@@ -13,11 +15,7 @@ M.setup = function(...)
 		-- these can be install through mason.
 		-- Either pre install from this config,
 		-- or adhoc using the MasonInstall commands
-		formatters_by_ft = {
-			lua = { "stylua" },
-			yaml = { "yamlfmt" },
-			python = { "isort", "black" },
-		},
+		formatters_by_ft = opts.formatters_by_ft or {},
 	})
 end
 

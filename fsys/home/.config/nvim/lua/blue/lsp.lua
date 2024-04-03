@@ -1,13 +1,13 @@
 local M = {}
 
-M.setup = function(...)
+M.setup = function(opts)
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	if pcall(require, "cmp_nvim_lsp") then
 		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 	end
 
 	require("mason").setup()
-	require("mason-tool-installer").setup({ ensure_installed = { "lua_ls" } })
+	require("mason-tool-installer").setup({ ensure_installed = opts.tools or {} })
 	require("mason-lspconfig").setup({
 		handlers = { function(sn) require("lspconfig")[sn].setup({ capabilities = capabilities }) end },
 	})

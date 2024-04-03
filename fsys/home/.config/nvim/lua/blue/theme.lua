@@ -5,13 +5,14 @@ M.setup = function(...)
 		transparent_background = true,
 		show_end_of_buffer = true,
 		term_colors = true,
+		default_integrations = true,
+		integrations = {
+			treesitter = true,
+			cmp = true,
+		},
 	})
 
 	vim.cmd.colorscheme("catppuccin")
-
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-	vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none" })
 
 	local winconf = {
 		border = "rounded",
