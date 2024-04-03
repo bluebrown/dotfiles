@@ -1,8 +1,12 @@
 local M = {}
 
-M.setup = function()
-	local wk = require("which-key")
-	wk.setup({})
+M.setup = function(...)
+	require("which-key").setup()
+	-- which-key will block after each key press.
+	-- so, timeoutlen will not work as usual.
+	-- hence, we set a very low value,
+	-- to get faster feedback from which-key
+	vim.opt.timeoutlen = 250
 end
 
 return M

@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(...)
 	local tlsc = require("telescope")
 
 	tlsc.setup({

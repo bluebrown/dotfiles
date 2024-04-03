@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(...)
 	require("cmp").setup({
 		snippet = {
 			expand = function(args) require("luasnip").lsp_expand(args.body) end,

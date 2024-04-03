@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.setup = function(...)
 	vim.g.mapleader = " "
 	vim.g.maplocalleader = " "
 
