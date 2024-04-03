@@ -68,6 +68,9 @@ require("lazy").setup({
 		require("blue.linter").setup({ linters_by_ft = linter })
 		require("blue.formatter").setup({ formatters_by_ft = formatter })
 		require("blue.completion").setup()
+
+		-- custom functionality
+		require("blue.k8s").setup()
 	end,
 	dependencies = {
 		-- some tools to help neovim beginners

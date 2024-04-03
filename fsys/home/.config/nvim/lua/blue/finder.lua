@@ -66,10 +66,6 @@ M.setup = function(...)
 		{ desc = "[S]earch [N]eovim files" }
 	)
 
-	tlsc.load_extension("kube")
-	local extensions = require("telescope").extensions
-	vim.keymap.set("n", "<leader>kc", extensions.kube.use_context, { desc = "[K]ube [C]ontext" })
-	vim.keymap.set("n", "<leader>kn", extensions.kube.use_namespace, { desc = "[K]ube [N]amespace" })
 end
 
 return M
