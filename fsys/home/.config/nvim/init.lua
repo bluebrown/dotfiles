@@ -5,23 +5,14 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- global settings to control the plugins,
--- in a central place
-
-local langage_servers = {
-	"lua_ls",
-	"bashls",
-	"gopls",
-	"zls",
-	"pyright",
-}
-
-local linters_by_ft = {
+-- langauge to linter mapping
+local linter = {
 	markdown = { "markdownlint" },
 	yaml = { "yamllint" },
 }
 
-local formatters_by_ft = {
+-- langauge to formatter mapping
+local formatter = {
 	lua = { "stylua" },
 	sh = { "shfmt" },
 	yaml = { "yamlfmt" },
@@ -29,14 +20,32 @@ local formatters_by_ft = {
 	python = { "isort", "black" },
 }
 
--- configure neovim with lazy
+-- list of langauge servers
+local server = {
+	"lua_ls",
+	"bashls",
+	"gopls",
+	"zls",
+	"pyright",
+}
 
+-- list of treesitter parsers
+local parser = {
+	"lua",
+	"vim",
+	"vimdoc",
+	"markdown",
+	"query",
+}
+
+-- create a flat list of tools, to pass it to mason
 local tools = vim.fn.flatten({
-	vim.tbl_values(langage_servers),
-	vim.tbl_values(linters_by_ft),
-	vim.tbl_values(formatters_by_ft),
+	vim.tbl_values(server),
+	vim.tbl_values(linter),
+	vim.tbl_values(formatter),
 })
 
+-- configure neovim with lazy
 require("lazy").setup({
 	dir = vim.fn.stdpath("config") .. "/lua/blue",
 	config = function()
@@ -54,10 +63,10 @@ require("lazy").setup({
 
 		-- these plugins turn neovim into an IDE
 		require("blue.finder").setup()
-		require("blue.treesitter").setup()
+		require("blue.treesitter").setup({ parsers = parser })
 		require("blue.lsp").setup({ tools = tools })
-		require("blue.linter").setup({ linters_by_ft = linters_by_ft })
-		require("blue.formatter").setup({ formatters_by_ft = formatters_by_ft })
+		require("blue.linter").setup({ linters_by_ft = linter })
+		require("blue.formatter").setup({ formatters_by_ft = formatter })
 		require("blue.completion").setup()
 	end,
 	dependencies = {
@@ -82,6 +91,7 @@ require("lazy").setup({
 		"nvim-lua/plenary.nvim",
 		"nvim-telescope/telescope.nvim",
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		"nvim-telescope/telescope-ui-select.nvim",
 		-- completion
 		"hrsh7th/nvim-cmp",
 		"hrsh7th/cmp-path",

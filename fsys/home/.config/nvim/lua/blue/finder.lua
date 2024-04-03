@@ -15,9 +15,13 @@ M.setup = function(...)
 				additional_args = { "--hidden" },
 			},
 		},
+		extensions = {
+			["ui-select"] = { require("telescope.themes").get_dropdown() },
+		},
 	})
 
 	pcall(require("telescope").load_extension, "fzf")
+	pcall(require("telescope").load_extension, "ui-select")
 
 	local tlsc_builtin = require("telescope.builtin")
 	vim.keymap.set("n", "<leader>sh", tlsc_builtin.help_tags, { desc = "[S]earch [H]elp" })

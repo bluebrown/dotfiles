@@ -1,8 +1,9 @@
 local M = {}
 
-M.setup = function(...)
+M.setup = function(opts)
+	opts = opts or {}
 	require("nvim-treesitter.configs").setup({
-		ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+		ensure_installed = opts.parsers or {},
 		auto_install = true,
 		sync_install = false,
 		ignore_install = {},

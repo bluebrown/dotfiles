@@ -1,6 +1,8 @@
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local conf = require("telescope.config").values
 
 local function runcmd(cmd)
 	return function(prompt_bufnr, map)
@@ -15,8 +17,6 @@ local function runcmd(cmd)
 end
 
 local function use_context(opts)
-	local conf = require("telescope.config").values
-	local action_state = require("telescope.actions.state")
 	pickers
 		.new(opts, {
 			prompt_title = "Kube Contexts",
@@ -31,8 +31,6 @@ local function use_context(opts)
 end
 
 local function use_namespace(opts)
-	local conf = require("telescope.config").values
-	local action_state = require("telescope.actions.state")
 	pickers
 		.new(opts, {
 			prompt_title = "Kube Namespaces",
