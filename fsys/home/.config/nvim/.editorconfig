@@ -17,5 +17,5 @@ indent_style = tab
 indent_size = 4
 quote_type = double
 call_parentheses = always
-collapse_simple_statement = never
+collapse_simple_statement = always
 sort_requires = false
