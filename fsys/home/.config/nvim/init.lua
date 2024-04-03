@@ -1,3 +1,5 @@
+-- vim: ts=2 sts=2 sw=2 et
+
 local function ensure_deps(deps)
 	local path = vim.fn.stdpath("data") .. "/site/pack/deps/start/"
 	vim.fn.mkdir(path, "p")
@@ -17,6 +19,7 @@ local deps = {
 	"catppuccin/nvim",
 	-- infamous the silver searcher
 	"github/copilot.vim",
+	"folke/which-key.nvim",
 	-- tree sitter
 	"nvim-treesitter/nvim-treesitter",
 	-- lsp, mason and glue
@@ -36,10 +39,6 @@ local deps = {
 	"L3MON4D3/LuaSnip",
 	"saadparwaiz1/cmp_luasnip",
 	"rafamadriz/friendly-snippets",
-	-- extended motions
-	"folke/which-key.nvim",
-	"echasnovski/mini.nvim",
-	"nvim-treesitter/nvim-treesitter-textobjects",
 }
 
 -- uncommented to speed up startup
@@ -61,6 +60,10 @@ vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none" })
 
+-- key discovery
+local wk = require("which-key")
+wk.setup({})
+
 -- enable tree sitter
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
@@ -73,6 +76,25 @@ require("nvim-treesitter.configs").setup({
 	},
 	indent = {
 		enable = true,
+	},
+	textobjects = {
+		select = {
+			enable = true,
+			lookahead = true,
+			keymaps = {
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+				["ac"] = "@class.outer",
+				["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+				["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+			},
+			selection_modes = {
+				["@parameter.outer"] = "v", -- charwise
+				["@function.outer"] = "V", -- linewise
+				["@class.outer"] = "<c-v>", -- blockwise
+			},
+			include_surrounding_whitespace = true,
+		},
 	},
 })
 
@@ -345,49 +367,3 @@ vim.diagnostic.config({
 	severity_sort = true, -- sort by severity
 	float = winconf,
 })
-
--- -- extend motions
--- local ai = require("mini.ai")
--- local ts_spec = ai.gen_spec.treesitter
--- ai.setup({
---   n_lines = 500,
---   custom_textobjects = {
---     f = ts_spec({ a = "@function.outer", i = "@function.inner" }, {}),
---     c = ts_spec({ a = "@class.outer", i = "@class.inner" }, {}),
---     o = ts_spec({
---       a = { "@block.outer", "@conditional.outer", "@loop.outer" },
---       i = { "@block.inner", "@conditional.inner", "@loop.inner" },
---     }, {}),
---   }
--- })
---
--- -- make suround behave like tpope's vim-surround
--- require('mini.surround').setup({
---   mappings = {
---     add = 'ys',
---     delete = 'ds',
---     find = '',
---     find_left = '',
---     highlight = '',
---     replace = 'cs',
---     update_n_lines = '',
---
---     -- Add this only if you don't want to use extended mappings
---     suffix_last = '',
---     suffix_next = '',
---   },
---   search_method = 'cover_or_next',
--- })
---
--- -- Remap adding surrounding to Visual mode selection
--- vim.keymap.del('x', 'ys')
--- vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
---
--- -- Make special mapping for "add surrounding for line"
--- vim.keymap.set('n', 'yss', 'ys_', { remap = true })
---
--- local wk = require("which-key")
--- wk.setup({})
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
