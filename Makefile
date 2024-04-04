@@ -138,10 +138,10 @@ $(bindir)/tmux:
 	cd tmux-$($@_tag) && ./configure --prefix=$(prefix) && $(MAKE) && $(MAKE) install
 	rm -rf tmux-$($@_tag)
 
-nvim: $(bindir)/nvim ## code editor
+nvim: $(bindir)/nvim ## code editor (nightly)
 $(bindir)/nvim:
 	mkdir -p $(bindir)
-	curl -fsSL -o nvim.tgz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+	curl -fsSL -o nvim.tgz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
 	tar -xzf nvim.tgz --strip-components 1 -C $(prefix)
 	rm -f nvim.tgz
 

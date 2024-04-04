@@ -9,6 +9,12 @@ M.setup = function(...)
 		integrations = {
 			treesitter = true,
 			cmp = true,
+			native_lsp = {
+				enabled = true,
+				inlay_hints = {
+					background = true,
+				},
+			},
 		},
 	})
 
@@ -29,7 +35,7 @@ M.setup = function(...)
 		severity_sort = true,
 		float = winconf,
 	})
-
+	--
 	pcall(require("lspconfig.ui.windows").default_options, winconf)
 end
 
