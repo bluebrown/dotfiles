@@ -3,6 +3,7 @@
 script_dir="$(dirname "$(readlink -f "$0")")"
 port=4325
 
+# recieve a command and execute it
 function cmd_mux() {
   # shellcheck disable=SC2046
   set - $(cat - | xargs)
@@ -18,6 +19,8 @@ function cmd_mux() {
   exec $cmd "$@"
 }
 
+# listens on the port and runs recieved commands
+# by invoking this script with the 'mux' command
 function cmd_listen() {
   socat "TCP4-LISTEN:$port",fork,reuseaddr "system:$script_dir/netcli.sh"
 }

@@ -9,6 +9,7 @@ vim.opt.rtp:prepend(lazypath)
 local linter = {
 	markdown = { "markdownlint" },
 	yaml = { "yamllint" },
+	terraform = { "tflint", "tfsec" },
 }
 
 -- langauge to formatter mapping
@@ -23,10 +24,11 @@ local formatter = {
 -- list of langauge servers
 local server = {
 	"lua_ls",
-	"bashls",
+	"bash-language-server",
 	"gopls",
 	"zls",
 	"pyright",
+	"terraform-ls",
 }
 
 -- list of treesitter parsers
