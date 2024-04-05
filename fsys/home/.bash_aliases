@@ -14,4 +14,4 @@ alias tf="terraform"
 alias ff='fd --type f --hidden --exclude .git --print0 | fzf-tmux -p -- --read0 --print0 --exit-0 | xargs -r -0 -o ${EDITOR:-vim}'
 
 # update go to latest
-alias goupdate='sudo rm -rf /usr/local/go && curl -fsSL "https://go.dev/dl/$(curl -fsSL https://go.dev/VERSION?m=text).linux-amd64.tar.gz" | sudo tar -C /usr/local -xzf -'
+alias goupdate='sudo rm -rf /usr/local/go && curl -fsSL "https://go.dev/dl/$(curl -fsSL https://golang.org/VERSION?m=text | head -n1 | xargs).linux-amd64.tar.gz" | sudo tar -C /usr/local -xzf -'
