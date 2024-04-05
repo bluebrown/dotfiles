@@ -12,7 +12,7 @@ local function on_select(switch_cmd)
 	end
 end
 
-function to_choice(cmd)
+local function to_choice(cmd)
 	return function()
 		vim.ui.select(
 			vim.fn.systemlist(cmd.list),
