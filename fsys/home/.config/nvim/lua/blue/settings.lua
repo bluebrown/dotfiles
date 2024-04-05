@@ -1,35 +1,35 @@
 local M = {}
 
 M.setup = function(...)
-	vim.g.mapleader = " "
-	vim.g.maplocalleader = " "
+  vim.g.mapleader = " "
+  vim.g.maplocalleader = " "
 
-	vim.opt.number = true
-	vim.opt.relativenumber = true
-	vim.opt.signcolumn = "yes"
-	vim.opt.cursorline = true
+  vim.opt.number = true
+  vim.opt.relativenumber = true
+  vim.opt.signcolumn = "yes"
+  vim.opt.cursorline = true
 
-	vim.opt.updatetime = 250
-	vim.opt.timeoutlen = 1000
-	vim.opt.undofile = true
-	vim.opt.mouse = "a"
-	vim.opt.scrolloff = 10
+  vim.opt.updatetime = 250
+  vim.opt.timeoutlen = 1000
+  vim.opt.undofile = true
+  vim.opt.mouse = "a"
+  vim.opt.scrolloff = 10
 
-	vim.opt.breakindent = true
-	vim.opt.ignorecase = true
-	vim.opt.smartcase = true
+  vim.opt.breakindent = true
+  vim.opt.ignorecase = true
+  vim.opt.smartcase = true
 
-	vim.opt.inccommand = "split"
-	vim.opt.splitright = true
-	vim.opt.splitbelow = true
+  vim.opt.inccommand = "split"
+  vim.opt.splitright = true
+  vim.opt.splitbelow = true
 
-	vim.opt.list = true
-	vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+  vim.opt.list = true
+  vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
-	vim.opt.hlsearch = true
-	vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+  vim.opt.hlsearch = true
+  vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
-	vim.cmd([[
+  vim.cmd([[
      cnoreabbrev W! w!
      cnoreabbrev W1 w!
      cnoreabbrev w1 w!
@@ -52,37 +52,37 @@ M.setup = function(...)
      cnoreabbrev Qall qall
  ]])
 
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-	vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-	vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
+  vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+  vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
-	vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+  vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-	vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-	vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-	vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-	vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+  vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+  vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+  vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+  vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
-	vim.api.nvim_create_autocmd("TextYankPost", {
-		desc = "Highlight when yanking (copying) text",
-		group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-		callback = function() vim.highlight.on_yank() end,
-	})
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+    callback = function() vim.highlight.on_yank() end,
+  })
 
-	vim.api.nvim_create_autocmd("InsertEnter", {
-		desc = "use absolute number in insert mode",
-		group = vim.api.nvim_create_augroup("bluebrown-number-absolute", { clear = true }),
-		pattern = "*",
-		callback = function() vim.opt.relativenumber = false end,
-	})
+  vim.api.nvim_create_autocmd("InsertEnter", {
+    desc = "use absolute number in insert mode",
+    group = vim.api.nvim_create_augroup("bluebrown-number-absolute", { clear = true }),
+    pattern = "*",
+    callback = function() vim.opt.relativenumber = false end,
+  })
 
-	vim.api.nvim_create_autocmd("InsertLeave", {
-		desc = "Use relative number in normal mode",
-		group = vim.api.nvim_create_augroup("bluebrown-number-relative", { clear = true }),
-		pattern = "*",
-		callback = function() vim.opt.relativenumber = true end,
-	})
+  vim.api.nvim_create_autocmd("InsertLeave", {
+    desc = "Use relative number in normal mode",
+    group = vim.api.nvim_create_augroup("bluebrown-number-relative", { clear = true }),
+    pattern = "*",
+    callback = function() vim.opt.relativenumber = true end,
+  })
 end
 
 return M

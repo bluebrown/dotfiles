@@ -13,8 +13,6 @@ max_line_length = 120
 trim_trailing_whitespace = false
 
 [*.lua]
-indent_style = tab
-indent_size = 4
 quote_type = double
 call_parentheses = always
 collapse_simple_statement = always
