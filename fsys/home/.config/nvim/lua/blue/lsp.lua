@@ -7,9 +7,19 @@ M.setup = function(opts)
 	end
 
 	require("mason").setup()
+
 	require("mason-tool-installer").setup({ ensure_installed = opts.tools or {} })
+
+	-- configure the language servers dynamically, as we encounter them in this handler
 	require("mason-lspconfig").setup({
-		handlers = { function(sn) require("lspconfig")[sn].setup({ capabilities = capabilities }) end },
+		handlers = {
+			function(sn)
+				local conf = opts.lsp[sn] or {}
+				-- extend the extra capabilities from the options with the ones from neovim and cmp
+				conf.capabilities = vim.tbl_deep_extend("force", {}, capabilities, conf.capabilities or {})
+				require("lspconfig")[sn].setup(conf)
+			end,
+		},
 	})
 
 	vim.api.nvim_create_autocmd("LspAttach", {
