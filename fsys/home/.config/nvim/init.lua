@@ -16,6 +16,7 @@ require("lazy").setup({
     "folke/which-key.nvim",
     -- theme
     "catppuccin/nvim",
+    "lewis6991/gitsigns.nvim",
     -- AI assistance
     "github/copilot.vim",
     -- treesitter

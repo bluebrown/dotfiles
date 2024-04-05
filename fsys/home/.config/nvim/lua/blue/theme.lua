@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(...)
+M.setup = function()
   require("catppuccin").setup({
     transparent_background = true,
     show_end_of_buffer = true,
@@ -35,8 +35,10 @@ M.setup = function(...)
     severity_sort = true,
     float = winconf,
   })
-  --
-  pcall(require("lspconfig.ui.windows").default_options, winconf)
+
+  require("lspconfig.ui.windows").default_options = winconf
+
+  require("gitsigns").setup()
 end
 
 return M
