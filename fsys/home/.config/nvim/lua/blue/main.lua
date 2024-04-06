@@ -34,6 +34,9 @@ M.server = {
       },
     },
   },
+  clangd = {
+    capabilities = { offsetEncoding = "utf-8" },
+  },
 }
 
 -- list of treesitter parsers
