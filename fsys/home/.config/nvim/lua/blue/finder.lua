@@ -1,5 +1,36 @@
 local M = {}
 
+local changed_on_branch = function()
+  vim.print("Searching for changes in current branch")
+  local previewers = require("telescope.previewers")
+  local pickers = require("telescope.pickers")
+  local sorters = require("telescope.sorters")
+  local finders = require("telescope.finders")
+  pickers
+    .new({}, {
+      results_title = "Modified in current branch",
+      finder = finders.new_oneshot_job({
+        "git",
+        "diff",
+        "--name-only",
+        "--diff-filter=ACMR",
+      }, {}),
+      sorter = sorters.get_fuzzy_file(),
+      previewer = previewers.new_termopen_previewer({
+        get_command = function(entry)
+          return {
+            "git",
+            "diff",
+            "--diff-filter=ACMR",
+            "--",
+            entry.value,
+          }
+        end,
+      }),
+    })
+    :find()
+end
+
 M.setup = function(...)
   local tlsc = require("telescope")
 
@@ -65,6 +96,9 @@ M.setup = function(...)
     function() tlsc_builtin.find_files({ cwd = vim.fn.stdpath("config") }) end,
     { desc = "[S]earch [N]eovim files" }
   )
+
+  -- search uncomitted changes
+  vim.keymap.set("n", "<leader>svc", changed_on_branch, { desc = "[S]earch [V]CS [C]hanges" })
 end
 
 return M
