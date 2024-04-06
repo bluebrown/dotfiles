@@ -1,13 +1,10 @@
 local M = {}
 
 M.setup = function()
+  -- global options
+
   vim.g.mapleader = " "
   vim.g.maplocalleader = " "
-
-  vim.opt.number = true
-  vim.opt.relativenumber = true
-  vim.opt.signcolumn = "yes"
-  vim.opt.cursorline = true
 
   vim.opt.updatetime = 250
   vim.opt.timeoutlen = 1000
@@ -15,19 +12,39 @@ M.setup = function()
   vim.opt.mouse = "a"
   vim.opt.scrolloff = 10
 
-  vim.opt.breakindent = true
+  -- behavior options
+
+  vim.opt.wrap = false
+  -- vim.opt.breakindent = true
+
+  vim.opt.splitright = true
+  vim.opt.splitbelow = true
+
+  -- vim.opt.expandtab = true
+  -- vim.opt.tabstop = 2
+  -- vim.opt.softtabstop = 2
+  -- vim.opt.shiftwidth = 2
+  -- vim.opt.smartindent = true
+
+  -- vim.opt.inccommand = "split"
+  vim.opt.incsearch = true
   vim.opt.ignorecase = true
   vim.opt.smartcase = true
 
-  vim.opt.inccommand = "split"
-  vim.opt.splitright = true
-  vim.opt.splitbelow = true
+  -- visual options
+
+  vim.opt.hlsearch = true
+  vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+  vim.opt.signcolumn = "yes:2"
+  vim.opt.number = true
+  vim.opt.relativenumber = true
+  vim.opt.cursorline = true
 
   vim.opt.list = true
   vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
-  vim.opt.hlsearch = true
-  vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+  -- key mappings
 
   vim.cmd([[
      cnoreabbrev W! w!
@@ -63,6 +80,8 @@ M.setup = function()
   vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
   vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
   vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+  -- auto commands
 
   vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
