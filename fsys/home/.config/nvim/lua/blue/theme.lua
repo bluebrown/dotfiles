@@ -36,9 +36,16 @@ M.setup = function()
     float = winconf,
   })
 
-  require("lspconfig.ui.windows").default_options = winconf
+  ok, lcfg = pcall(require, "lspconfig.ui.windows")
+  if ok then
+    lcfg.default_opts({ border = winconf.border })
+    -- TOODO: the below is set by the ui.windows module.
+    -- maybe we should do something with it:
+    -- api.nvim_win_set_option(win_id, 'winhl', 'FloatBorder:LspInfoBorder')
+  end
 
-  require("gitsigns").setup()
+  ok, signs = pcall(require, "gitsigns")
+  if ok then require("gitsigns").setup() end
 end
 
 return M

@@ -12,36 +12,36 @@ require("lazy").setup({
   opts = {},
   dependencies = {
     -- some tools to help neovim beginners
-    "folke/neodev.nvim",
-    "folke/which-key.nvim",
+    { "folke/neodev.nvim" },
+    { "folke/which-key.nvim" },
     -- theme
-    "catppuccin/nvim",
-    "lewis6991/gitsigns.nvim",
+    { "catppuccin/nvim" },
+    { "lewis6991/gitsigns.nvim" },
     -- AI assistance
-    "github/copilot.vim",
+    { "github/copilot.vim" },
     -- treesitter
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-    "nvim-treesitter/nvim-treesitter-textobjects",
+    { "nvim-treesitter/nvim-treesitter-textobjects" },
     -- lsp
-    "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    { "neovim/nvim-lspconfig" },
+    { "williamboman/mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
+    { "WhoIsSethDaniel/mason-tool-installer.nvim" },
     -- autofmt
-    "stevearc/conform.nvim",
+    { "stevearc/conform.nvim" },
     -- telescope
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-telescope/telescope.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "nvim-telescope/telescope-ui-select.nvim",
+    { "nvim-telescope/telescope-ui-select.nvim" },
     -- completion
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-nvim-lsp",
+    { "hrsh7th/nvim-cmp" },
+    { "hrsh7th/cmp-path" },
+    { "hrsh7th/cmp-nvim-lsp" },
     { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
-    "saadparwaiz1/cmp_luasnip",
-    "rafamadriz/friendly-snippets",
+    { "saadparwaiz1/cmp_luasnip" },
+    { "rafamadriz/friendly-snippets" },
     -- linter
-    "mfussenegger/nvim-lint",
+    { "mfussenegger/nvim-lint" },
   },
 })

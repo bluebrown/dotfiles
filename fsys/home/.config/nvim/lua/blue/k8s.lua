@@ -40,9 +40,10 @@ M.switch_context = to_choice(cmd_context)
 M.switch_namespace = to_choice(cmd_namespace)
 
 M.setup = function()
-  pcall(require("which-key").register, { ["<leader>k"] = { name = "(k)ubernetes" } })
   vim.keymap.set("n", "<leader>kc", M.switch_context, { desc = "(c)ontext" })
   vim.keymap.set("n", "<leader>kn", M.switch_namespace, { desc = "(n)amespace" })
+  ok, wk = pcall(require, "which-key")
+  if ok then wk.register({ ["<leader>k"] = { name = "(k)ubernetes" } }) end
 end
 
 return M

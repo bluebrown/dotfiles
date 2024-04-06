@@ -54,7 +54,9 @@ M.tools = function()
   })
 end
 
-M.setup = function()
+M.setup = function(opts)
+  local opts = opts or {}
+
   -- the native settings should come first
   -- so other plugins can use the values
   require("blue.settings").setup()
