@@ -49,10 +49,11 @@ pkgs_base = build-essential bison pkg-config curl git jq unzip xz-utils
 pkgs_tmux = libevent-dev ncurses-dev
 pkgs_dev  = man bash-completion net-tools rsync parallel entr
 pkgs_net = dnsutils iputils-ping netcat-openbsd nmap socat tcpdump traceroute
+pkgs_lua = libreadline-dev
 
 deps-apt: ## Install apt dependencies
 	sudo apt-get update
-	sudo apt-get install -y $(pkgs_base) $(pkgs_tmux) $(pkgs_dev)
+	sudo apt-get install -y $(pkgs_base) $(pkgs_tmux) $(pkgs_dev) $(pkgs_net) $(pkgs_lua)
 
 ###@ Runtimes
 
@@ -77,6 +78,14 @@ zig: /usr/local/zig/zig ## install evergreen zig version
 	sudo rm -rf /usr/local/zig && sudo mkdir -p /usr/local/zig
 	sudo tar -C /usr/local/zig -xJf zig.xz --strip-components 1
 	rm -f zig.xz
+
+lua: /usr/local/lua/bin/lua ## install lua 5.1.5
+/usr/local/lua/bin/lua:
+	sudo mkdir -p /usr/local/lua
+	curl -fsSL -o lua.tgz "https://www.lua.org/ftp/lua-5.1.5.tar.gz"
+	tar -xzf lua.tgz
+	cd lua-5.1.5 && make all PLAT=linux && sudo make install INSTALL_TOP=/usr/local/lua
+	rm -rf lua-5.1.5 lua.tgz
 
 ###@ Baseline tools
 
