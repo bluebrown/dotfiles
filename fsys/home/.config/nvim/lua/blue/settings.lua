@@ -31,6 +31,8 @@ M.setup = function()
   vim.opt.ignorecase = true
   vim.opt.smartcase = true
 
+  vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
   -- visual options
 
   vim.opt.hlsearch = true

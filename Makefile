@@ -62,6 +62,7 @@ node: /usr/bin/node ## install evergreen node version
 	curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 	sudo apt-get install -y nodejs
 	sudo npm -g set prefix ~/.local
+	npm install --global neovim
 
 go: /usr/local/go/bin/go ## install evergreen go version
 /usr/local/go/bin/go:
