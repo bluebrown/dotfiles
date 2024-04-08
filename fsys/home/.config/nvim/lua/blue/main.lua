@@ -4,6 +4,7 @@ local M = {}
 M.linter = {
   markdown = { "markdownlint" },
   terraform = { "tflint", "tfsec" },
+  sh = { "shellcheck" },
 }
 
 -- langauge to formatter mapping
