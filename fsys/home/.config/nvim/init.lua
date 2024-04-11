@@ -14,13 +14,13 @@ require("lazy").setup({
   opts = {},
   dependencies = {
     -- some tools to help neovim beginners
-    { "folke/neodev.nvim" },
-    { "folke/which-key.nvim" },
+    { "folke/neodev.nvim", enabled = false },
+    { "folke/which-key.nvim", enabled = false },
     -- theme
     { "catppuccin/nvim" },
     { "lewis6991/gitsigns.nvim" },
     -- AI assistance
-    { "github/copilot.vim" },
+    { "github/copilot.vim", enabled = false },
     -- treesitter
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
@@ -46,7 +46,7 @@ require("lazy").setup({
     -- linter
     { "mfussenegger/nvim-lint" },
     -- sin
-    "nvim-neo-tree/neo-tree.nvim",
-    "MunifTanjim/nui.nvim",
+    { "nvim-neo-tree/neo-tree.nvim", enabled = false },
+    { "MunifTanjim/nui.nvim", enabled = false },
   },
 })
