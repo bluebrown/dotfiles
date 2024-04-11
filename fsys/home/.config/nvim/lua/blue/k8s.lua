@@ -75,23 +75,25 @@ local function describe(kind)
 end
 
 M.setup = function()
-  vim.keymap.set("n", "<leader>kc", M.switch_context, { desc = "(c)ontext" })
-  vim.keymap.set("n", "<leader>kn", M.switch_namespace, { desc = "(n)amespace" })
   local wok, wk = pcall(require, "which-key")
-  if wok then wk.register({ ["<leader>k"] = { name = "(k)ubernetes" } }) end
+
+  if wok then
+    wk.register({ ["<leader>k"] = { name = "(k)ubernetes" } })
+    wk.register({ ["<leader>ks"] = { name = "(s)witch" } })
+  end
+
+  vim.keymap.set("n", "<leader>ksc", M.switch_context, { desc = "(c)ontext" })
+  vim.keymap.set("n", "<leader>ksn", M.switch_namespace, { desc = "(n)amespace" })
 
   local _, tok = pcall(require, "telescope")
-  if tok and wok then wk.register({ ["<leader>kd"] = { name = "(d)escribe" } }) end
   if tok then
+    if wok then wk.register({ ["<leader>kd"] = { name = "(d)escribe" } }) end
+
     vim.keymap.set("n", "<leader>kdn", function() describe("nodes") end, { desc = "nodes" })
     vim.keymap.set("n", "<leader>kdc", function() describe("configmaps") end, { desc = "configmaps" })
     vim.keymap.set("n", "<leader>kds", function() describe("secrets") end, { desc = "secrets" })
     vim.keymap.set("n", "<leader>kdp", function() describe("pods") end, { desc = "pods" })
-    vim.keymap.set("n", "<leader>kdr", function() describe("replicasets") end, { desc = "replicasets" })
-    vim.keymap.set("n", "<leader>kdd", function() describe("deployments") end, { desc = "deployments" })
-    vim.keymap.set("n", "<leader>kds", function() describe("services") end, { desc = "services" })
     vim.keymap.set("n", "<leader>kdi", function() describe("ingresses") end, { desc = "ingresses" })
-    vim.keymap.set("n", "<leader>kdt", function() describe("statefulsets") end, { desc = "statefulsets" })
   end
 end
 

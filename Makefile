@@ -29,7 +29,7 @@ install: deps ## Install everything, requires sudo access
 
 deps: deps-apt ## Install all dependencies
 
-runtimes: node go ## Install runtimes, requires sudo access
+runtimes: node go zig lua otp ## Install runtimes, requires sudo access
 
 tools: tools-base tools-k8s ## Install all tools
 
@@ -48,12 +48,13 @@ config-home: ## sync the fsys/home dir to the user's home directory
 pkgs_base = build-essential bison pkg-config curl git jq unzip xz-utils
 pkgs_tmux = libevent-dev ncurses-dev
 pkgs_dev  = man bash-completion net-tools rsync parallel entr
-pkgs_net = dnsutils iputils-ping netcat-openbsd nmap socat tcpdump traceroute
-pkgs_lua = libreadline-dev
+pkgs_net  = dnsutils iputils-ping netcat-openbsd nmap socat tcpdump traceroute
+pkgs_lua  = libreadline-dev
+pkgs_otp  = libssl-dev
 
 deps-apt: ## Install apt dependencies
 	sudo apt-get update
-	sudo apt-get install -y $(pkgs_base) $(pkgs_tmux) $(pkgs_dev) $(pkgs_net) $(pkgs_lua)
+	sudo apt-get install -y $(pkgs_base) $(pkgs_tmux) $(pkgs_dev) $(pkgs_net) $(pkgs_lua) $(pkgs_otp)
 
 ###@ Runtimes
 
@@ -87,6 +88,13 @@ lua: /usr/local/lua/bin/lua ## install lua 5.1.5
 	tar -xzf lua.tgz
 	cd lua-5.1.5 && make all PLAT=linux && sudo make install INSTALL_TOP=/usr/local/lua
 	rm -rf lua-5.1.5 lua.tgz
+
+otp: /usr/local/otp/bin/erl ## install latest erlang otp
+/usr/local/otp/bin/erl:
+	$(eval $@_tag = $(shell curl -fsSL https://api.github.com/repos/erlang/otp/releases/latest | jq -r '.tag_name'))
+	curl -fsSLO -o otp-src.tgz "https://github.com/erlang/otp/archive/$($@_tag).tar.gz"
+	tar -xzf otp-src.tgz
+	cd otp-$($@_tag) && ./configure --prefix=/usr/local/otp && $(MAKE) && sudo $(MAKE) install
 
 ###@ Baseline tools
 
