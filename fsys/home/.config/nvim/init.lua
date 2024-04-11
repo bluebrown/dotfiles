@@ -1,3 +1,5 @@
+require("blue.settings")
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -7,8 +9,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- configure neovim with lazy
 require("lazy").setup({
-  dir = vim.fn.stdpath("config") .. "/lua/blue",
-  main = "blue.main",
+  dir = vim.fn.stdpath("config") .. "/lua/blue/plugins",
+  main = "blue.plugins.main",
   opts = {},
   dependencies = {
     -- some tools to help neovim beginners
@@ -43,5 +45,8 @@ require("lazy").setup({
     { "rafamadriz/friendly-snippets" },
     -- linter
     { "mfussenegger/nvim-lint" },
+    -- sin
+    "nvim-neo-tree/neo-tree.nvim",
+    "MunifTanjim/nui.nvim",
   },
 })

@@ -36,7 +36,7 @@ M.setup = function()
     float = winconf,
   })
 
-  ok, lcfg = pcall(require, "lspconfig.ui.windows")
+  local ok, lcfg = pcall(require, "lspconfig.ui.windows")
   if ok then
     lcfg.default_opts({ border = winconf.border })
     -- TOODO: the below is set by the ui.windows module.
@@ -44,8 +44,13 @@ M.setup = function()
     -- api.nvim_win_set_option(win_id, 'winhl', 'FloatBorder:LspInfoBorder')
   end
 
-  ok, signs = pcall(require, "gitsigns")
-  if ok then require("gitsigns").setup() end
+  vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+  vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+  vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+  vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+  local sok, signs = pcall(require, "gitsigns")
+  if sok then signs.setup() end
 end
 
 return M

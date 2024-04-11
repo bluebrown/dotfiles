@@ -9,11 +9,13 @@ M.linter = {
 
 -- langauge to formatter mapping
 M.formatter = {
+  markdown = { "prettier" },
   lua = { "stylua" },
   sh = { "shfmt" },
   yaml = { "yamlfmt" },
   go = { "goimports" },
   python = { "isort", "black" },
+  json = { "prettier" },
 }
 
 -- langauge server and optional extra config
@@ -61,28 +63,27 @@ end
 M.setup = function(opts)
   local opts = opts or {}
 
-  -- the native settings should come first
-  -- so other plugins can use the values
-  require("blue.settings").setup()
-
   -- the theme is loaded right after the settings
   -- in hope to avoid flickering
-  require("blue.theme").setup()
+  require("blue.plugins.theme").setup()
 
   -- these are some plugins for beginners.
   -- for example which-key to help with keybindings
-  require("blue.noob").setup()
+  require("blue.plugins.noob").setup()
 
   -- these plugins turn neovim into an IDE
-  require("blue.finder").setup()
-  require("blue.treesitter").setup({ parsers = M.parser })
-  require("blue.lsp").setup({ tools = M.tools(), lsp = M.server })
-  require("blue.linter").setup({ linters_by_ft = M.linter })
-  require("blue.formatter").setup({ formatters_by_ft = M.formatter })
-  require("blue.completion").setup()
+  require("blue.plugins.finder").setup()
+  require("blue.plugins.treesitter").setup({ parsers = M.parser })
+  require("blue.plugins.lsp").setup({ tools = M.tools(), lsp = M.server })
+  require("blue.plugins.linter").setup({ linters_by_ft = M.linter })
+  require("blue.plugins.formatter").setup({ formatters_by_ft = M.formatter })
+  require("blue.plugins.completion").setup()
 
   -- custom functionality
-  require("blue.k8s").setup()
+  require("blue.plugins.k8s").setup()
+
+  -- this is sin
+  require("blue.plugins.filetree").setup()
 end
 
 return M
