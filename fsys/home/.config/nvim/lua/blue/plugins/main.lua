@@ -16,6 +16,7 @@ M.formatter = {
   go = { "goimports" },
   python = { "isort", "black" },
   json = { "prettier" },
+  c = { "clang-format" },
 }
 
 -- langauge server and optional extra config
@@ -31,7 +32,8 @@ M.server = {
       redhat = { telemetry = { enabled = false } },
       yaml = {
         schemas = {
-          kubernetes = "*",
+          ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "openapi.yaml",
+          kubernetes = "*.k8s.yaml",
           ["http://json.schemastore.org/kustomization"] = "kustomization.yaml",
         },
       },

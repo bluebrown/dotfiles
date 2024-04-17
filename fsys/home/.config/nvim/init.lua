@@ -20,7 +20,7 @@ require("lazy").setup({
     { "catppuccin/nvim" },
     { "lewis6991/gitsigns.nvim" },
     -- AI assistance
-    { "github/copilot.vim", enabled = false },
+    { "github/copilot.vim", enabled = true },
     -- treesitter
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
@@ -45,8 +45,5 @@ require("lazy").setup({
     { "rafamadriz/friendly-snippets" },
     -- linter
     { "mfussenegger/nvim-lint" },
-    -- sin
-    { "nvim-neo-tree/neo-tree.nvim", enabled = false },
-    { "MunifTanjim/nui.nvim", enabled = false },
   },
 })
