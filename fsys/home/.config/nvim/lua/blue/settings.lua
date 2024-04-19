@@ -91,3 +91,11 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = "*",
   callback = function() vim.opt.relativenumber = true end,
 })
+
+-- configure netrw to be more like a file tree explorer
+
+vim.g.netrw_banner = 0 -- disable banner
+vim.g.netrw_liststyle = 3 -- tree style
+vim.g.netrw_winsize = 23 -- width of the netrw window
+vim.g.netrw_preview = 1 -- preview in vertical split
+vim.g.netrw_alto = 0 -- preview split right

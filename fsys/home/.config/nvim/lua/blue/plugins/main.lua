@@ -1,13 +1,11 @@
 local M = {}
 
--- langauge to linter mapping
 M.linter = {
   markdown = { "markdownlint" },
   terraform = { "tflint", "tfsec" },
   sh = { "shellcheck" },
 }
 
--- langauge to formatter mapping
 M.formatter = {
   markdown = { "prettier" },
   lua = { "stylua" },
@@ -19,7 +17,6 @@ M.formatter = {
   c = { "clang-format" },
 }
 
--- langauge server and optional extra config
 M.server = {
   lua_ls = {},
   bashls = {},
@@ -27,24 +24,10 @@ M.server = {
   zls = {},
   pyright = {},
   terraformls = {},
-  yamlls = {
-    settings = {
-      redhat = { telemetry = { enabled = false } },
-      yaml = {
-        schemas = {
-          ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "openapi.yaml",
-          kubernetes = "*.k8s.yaml",
-          ["http://json.schemastore.org/kustomization"] = "kustomization.yaml",
-        },
-      },
-    },
-  },
-  clangd = {
-    capabilities = { offsetEncoding = "utf-8" },
-  },
+  yamlls = {},
+  clangd = { capabilities = { offsetEncoding = "utf-8" } },
 }
 
--- list of treesitter parsers
 M.parser = {
   "lua",
   "vim",
@@ -53,7 +36,6 @@ M.parser = {
   "query",
 }
 
--- create a flat list of tools, to pass it to mason
 M.tools = function()
   return vim.fn.flatten({
     vim.tbl_keys(M.server),
@@ -62,30 +44,17 @@ M.tools = function()
   })
 end
 
-M.setup = function(opts)
-  local opts = opts or {}
-
-  -- the theme is loaded right after the settings
-  -- in hope to avoid flickering
+M.setup = function()
   require("blue.plugins.theme").setup()
-
-  -- these are some plugins for beginners.
-  -- for example which-key to help with keybindings
-  require("blue.plugins.noob").setup()
-
-  -- these plugins turn neovim into an IDE
-  require("blue.plugins.finder").setup()
   require("blue.plugins.treesitter").setup({ parsers = M.parser })
   require("blue.plugins.lsp").setup({ tools = M.tools(), lsp = M.server })
   require("blue.plugins.linter").setup({ linters_by_ft = M.linter })
   require("blue.plugins.formatter").setup({ formatters_by_ft = M.formatter })
   require("blue.plugins.completion").setup()
-
-  -- custom functionality
+  require("blue.plugins.finder").setup()
+  require("blue.plugins.files").setup()
+  require("blue.plugins.hints").setup()
   require("blue.plugins.k8s").setup()
-
-  -- this is sin
-  require("blue.plugins.filetree").setup()
 end
 
 return M
