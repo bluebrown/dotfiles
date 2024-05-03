@@ -1,9 +1,7 @@
 return {
   ["conform.nvim"] = "12b3995537f52ba2810a9857e8ca256881febbda",
-  ["copilot.vim"] = "1e135c5303bc60598f6314a2276f31dc91aa34dd",
-  ["mini.nvim"] = "5eb6ae150d472dd35d5ecfd933fbef2a187c71dc",
+  ["mini.nvim"] = "7c989d42a2fab7bede6fdf78c139d849a836995d",
   ["nvim-lint"] = "861a04313501563bb1b11f125ae9b7237a517b9b",
   ["nvim-lspconfig"] = "aa5f4f4ee10b2688fb37fa46215672441d5cd5d9",
-  ["nvim-treesitter"] = "9a47a523e3b9e49d3fa14d5743b9860a66eca731",
-  ["oil.nvim"] = "f3a31eba24587bc038592103d8f7e64648292115"
+  ["nvim-treesitter"] = "4ae2b452e9bd67ff618e3bb0e3488e49c98465e9"
 }

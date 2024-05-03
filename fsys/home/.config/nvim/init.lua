@@ -8,6 +8,8 @@ vim.g.maplocalleader = " "
 vim.opt.undofile = true
 vim.opt.scrolloff = 10
 vim.opt.wrap = false
+
+-- sane splits
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
@@ -115,11 +117,11 @@ end)
 -- langauge server
 -- needs to load early so lsp attach runs on first bufEnter
 now(function()
+  vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
   add("neovim/nvim-lspconfig")
   local lspconfig = require("lspconfig")
-  local caps = vim.lsp.protocol.make_client_capabilities()
-  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
-  lspconfig["gopls"].setup({ capabilities = caps })
+  lspconfig.gopls.setup({})
+  lspconfig.rust_analyzer.setup({})
 end)
 
 -- linter
@@ -127,7 +129,7 @@ later(function()
   add("mfussenegger/nvim-lint")
   require("lint").linters_by_ft = {
     sh = { "shellcheck" },
-    markdown = { "markdownlint" },
+    --    markdown = { "markdownlint" },
     terraform = { "tflint", "tfsec" },
   }
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -172,50 +174,22 @@ later(function() require("mini.diff").setup() end)
 
 -- buffer based file edits
 later(function()
-  add("stevearc/oil.nvim")
-  require("oil").setup({ default_file_explorer = true })
-  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+  require("mini.files").setup()
+  vim.keymap.set("n", "-", MiniFiles.open)
 end)
 
-later(function() add("github/copilot.vim") end)
-
---@ custom
-
-local function fmt(current)
-  return function(item) return item == current and string.format("%s (current)", item) or item end
+--@wsl
+if vim.fn.has("wsl") then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    cache_enabled = 0,
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+  }
 end
-
-local function on_select(switch_cmd)
-  return function(item)
-    if not item or item == "" then return end
-    local msg = vim.fn.system(string.format("%s %s", switch_cmd, item))
-    vim.notify(vim.trim(msg))
-  end
-end
-
-local function to_choice(cmd)
-  return function()
-    vim.ui.select(
-      vim.fn.systemlist(cmd.list),
-      { format_item = fmt(vim.fn.system(cmd.current)), prompt = cmd.prompt },
-      on_select(cmd.switch)
-    )
-  end
-end
-
-local cmd_context = {
-  prompt = "Select context",
-  current = "kubectl config view --minify -o jsonpath='{.contexts[].name}'",
-  list = "kubectl config get-contexts -o=name",
-  switch = "kubectl config use-context",
-}
-
-local cmd_namespace = {
-  prompt = "Select namespace",
-  current = "kubectl config view --minify -o jsonpath='{..namespace}'",
-  list = "kubectl get ns --no-headers -o=custom-columns=NAME:.metadata.name",
-  switch = "kubectl config set-context --current --namespace",
-}
-
-vim.keymap.set("n", "<leader>ksc", to_choice(cmd_context), { desc = "(c)ontext" })
-vim.keymap.set("n", "<leader>ksn", to_choice(cmd_namespace), { desc = "(n)amespace" })
