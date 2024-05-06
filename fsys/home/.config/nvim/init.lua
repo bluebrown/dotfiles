@@ -78,6 +78,19 @@ vim.cmd([[
      cnoreabbrev Qall qall
  ]])
 
+-- wsl clipboard
+if vim.fn.has("wsl") then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    cache_enabled = 0,
+    copy = { ["+"] = "clip.exe", ["*"] = "clip.exe" },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+  }
+end
+
 --@ plugins
 
 local path_package = vim.fn.stdpath("data") .. "/site/"
@@ -92,11 +105,16 @@ end
 require("mini.deps").setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
+later(function() add("github/copilot.vim") end)
+
 -- mini plugins collections
 now(function() add("echasnovski/mini.nvim") end)
 
 -- theme
-now(function() vim.cmd("colorscheme randomhue") end)
+now(function()
+  add("catppuccin/nvim")
+  vim.cmd.colorscheme("catppuccin")
+end)
 
 -- syntax highlighting
 later(function()
@@ -117,11 +135,21 @@ end)
 -- langauge server
 -- needs to load early so lsp attach runs on first bufEnter
 now(function()
-  vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
   add("neovim/nvim-lspconfig")
-  local lspconfig = require("lspconfig")
-  lspconfig.gopls.setup({})
-  lspconfig.rust_analyzer.setup({})
+  local lc = require("lspconfig")
+  -- lspconfig already sets keymaps, i.e.:
+  -- K        : hover info
+  -- <C-W>d     : open diagnostics float
+  -- [d and ]d  : previous and next diagnostic
+  -- only set some missing ones
+  vim.keymap.set("n", "cq", vim.diagnostic.setloclist)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+  -- NOTE: servers have to be installed manually!
+  lc.gopls.setup({})
+  lc.zls.setup({})
+  lc.rust_analyzer.setup({})
+  lc.clangd.setup({ capabilities = { offsetEncoding = "utf-8" } })
+  lc.asm_lsp.setup({})
 end)
 
 -- linter
@@ -159,16 +187,6 @@ later(function()
   })
 end)
 
--- auto completion
-later(function() require("mini.completion").setup() end)
-
--- fuzzy finder
-later(function()
-  require("mini.pick").setup()
-  vim.keymap.set("n", "<leader>sf", MiniPick.builtin.files)
-  vim.keymap.set("n", "<leader>sg", MiniPick.builtin.grep_live)
-end)
-
 -- show git diff
 later(function() require("mini.diff").setup() end)
 
@@ -178,18 +196,65 @@ later(function()
   vim.keymap.set("n", "-", MiniFiles.open)
 end)
 
---@wsl
-if vim.fn.has("wsl") then
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    cache_enabled = 0,
-    copy = {
-      ["+"] = "clip.exe",
-      ["*"] = "clip.exe",
+-- auto completion
+later(function() require("mini.completion").setup() end)
+
+-- fuzzy finder
+later(function()
+  add({
+    source = "nvim-telescope/telescope.nvim",
+    depends = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
     },
-    paste = {
-      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+  })
+  require("telescope").setup({
+    defaults = {
+      mappings = {
+        i = { ["<c-enter>"] = "to_fuzzy_refine" },
+      },
     },
-  }
-end
+    pickers = {
+      find_files = { find_command = { "rg", "--files", "--iglob", "!.git", "--hidden" } },
+      grep_string = { additional_args = { "--hidden" } },
+      live_grep = { additional_args = { "--hidden" } },
+    },
+    extensions = {
+      ["ui-select"] = { require("telescope.themes").get_dropdown() },
+    },
+  })
+  pcall(require("telescope").load_extension, "fzf")
+  pcall(require("telescope").load_extension, "ui-select")
+  local builtin = require("telescope.builtin")
+  vim.keymap.set("n", "<leader>sh", builtin.help_tags)
+  vim.keymap.set("n", "<leader>sk", builtin.keymaps)
+  vim.keymap.set("n", "<leader>sf", builtin.find_files)
+  vim.keymap.set("n", "<leader>ss", builtin.builtin)
+  vim.keymap.set("n", "<leader>sw", builtin.grep_string)
+  vim.keymap.set("n", "<leader>sg", builtin.live_grep)
+  vim.keymap.set("n", "<leader>sd", builtin.diagnostics)
+  vim.keymap.set("n", "<leader>sr", builtin.resume)
+  vim.keymap.set("n", "<leader>s.", builtin.oldfiles)
+  vim.keymap.set("n", "<leader><leader>", builtin.buffers)
+  vim.keymap.set(
+    "n",
+    "<leader>/",
+    function()
+      builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+        winblend = 10,
+        previewer = false,
+      }))
+    end
+  )
+  vim.keymap.set(
+    "n",
+    "<leader>s/",
+    function()
+      builtin.live_grep({
+        grep_open_files = true,
+        prompt_title = "Live Grep in Open Files",
+      })
+    end
+  )
+end)

@@ -1,7 +1,13 @@
 return {
-  ["conform.nvim"] = "12b3995537f52ba2810a9857e8ca256881febbda",
-  ["mini.nvim"] = "7c989d42a2fab7bede6fdf78c139d849a836995d",
+  ["conform.nvim"] = "3cd1135cb2978c9d45b8dc6afc80045fb8a93157",
+  ["copilot.vim"] = "b603990a639bb4b8651d054ef8d5a8fe5db56e0c",
+  ["mini.nvim"] = "061379f082d6b03305b00ddd6f8f6b7b8eded6d8",
+  nvim = "6af91673ceccbd6e073b66c439e7fce239f72d24",
   ["nvim-lint"] = "861a04313501563bb1b11f125ae9b7237a517b9b",
-  ["nvim-lspconfig"] = "aa5f4f4ee10b2688fb37fa46215672441d5cd5d9",
-  ["nvim-treesitter"] = "4ae2b452e9bd67ff618e3bb0e3488e49c98465e9"
+  ["nvim-lspconfig"] = "97762065bf7e1ac617d0a8710eb7ec2d656287a9",
+  ["nvim-treesitter"] = "268611e3ece8463bfb5b09044dcd1b76a28ffbb6",
+  ["plenary.nvim"] = "08e301982b9a057110ede7a735dd1b5285eb341f",
+  ["telescope-fzf-native.nvim"] = "9ef21b2e6bb6ebeaf349a0781745549bbb870d27",
+  ["telescope-ui-select.nvim"] = "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
+  ["telescope.nvim"] = "fac83a556e7b710dc31433dec727361ca062dbe9"
 }
