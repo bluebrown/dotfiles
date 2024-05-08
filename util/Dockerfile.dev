@@ -1,7 +1,7 @@
 ARG base=debian:bookworm-slim
 FROM ${base}
 
-# install so core packages required to make it all work
+# install some core packages required to make it all work
 RUN apt-get -y update && apt-get -y install sudo curl git make
 
 # the uid and gid should correspond to the local user.
@@ -33,4 +33,3 @@ RUN git checkout $dots_version
 RUN make deps
 RUN make tools-base
 RUN make config-home
-
