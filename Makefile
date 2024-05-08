@@ -111,7 +111,7 @@ tools-base: makehelp fd rg fzf starship direnv tmux nvim lazygit ## Install base
 makehelp: $(bindir)/makehelp ## make help
 $(bindir)/makehelp:
 	mkdir -p $(bindir)
-	curl -fsSL https://gist.githubusercontent.com/bluebrown/2ec155902622b5e46e2bfcbaff342eb9/raw/Makehelp.awk
+	curl -fsSLO https://gist.githubusercontent.com/bluebrown/2ec155902622b5e46e2bfcbaff342eb9/raw/Makehelp.awk
 	install Makehelp.awk $(bindir)/makehelp
 	rm -f Makehelp.awk
 
