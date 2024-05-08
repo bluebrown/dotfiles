@@ -200,9 +200,10 @@ later(function() add("echasnovski/mini.nvim") end)
 later(function() require("mini.diff").setup() end)
 
 -- buffer based file edits
-later(function()
-  require("mini.files").setup()
-  vim.keymap.set("n", "-", MiniFiles.open)
+now(function()
+  add("stevearc/oil.nvim")
+  require("oil").setup()
+  vim.keymap.set("n", "-", "<CMD>Oil<CR>")
 end)
 
 -- auto completion
