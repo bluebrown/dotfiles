@@ -106,7 +106,7 @@ lua: /usr/local/lua/bin/lua ## install lua 5.1.5
 
 ###@ Baseline tools
 
-tools-base: makehelp fd rg fzf starship direnv tmux nvim lazygit ## Install base tools
+tools-base: makehelp fd rg fzf starship direnv nvim lazygit ## Install base tools
 
 makehelp: $(bindir)/makehelp ## make help
 $(bindir)/makehelp:
