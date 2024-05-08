@@ -1,16 +1,17 @@
+# most images are debian based, so this is a good starting point
 ARG base=debian:bookworm-slim
 FROM ${base}
 
 # install some core packages required to make it all work
 RUN apt-get -y update && apt-get -y install sudo curl git make
 
-# the uid and gid should correspond to the local user.
-# this ensures proper permissions when mounting directories
+# the uid and gid should correspond to the local user. this ensures proper
+# permissions when mounting directories
 ARG uid="1000"
 ARG gid="$uid"
 
-# since a custom user reflecting the local user will be used,
-# allow this user to use sudo to run priviliged commands
+# since a custom user reflecting the local user will be used, allow this user
+# to use sudo to run priviliged commands
 RUN echo "dev ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 RUN groupadd --gid "$gid" dev
 RUN useradd --uid "$uid" --gid "$gid" -m -s /bin/bash dev
@@ -20,12 +21,10 @@ RUN useradd --uid "$uid" --gid "$gid" -m -s /bin/bash dev
 COPY --from=docker:dind /usr/local/bin/docker /usr/local/bin/
 RUN groupadd docker && usermod -aG docker dev
 
-# switch to the user, switch to its home dir and enable the login shell
+# switch to the user to get correct file permissions
 USER $uid
-WORKDIR /usr/home/dev
-CMD ["/bin/bash", "-l"]
 
-# setup the dotfiles and devtools for the dev user
+# setup tools and configs
 WORKDIR /usr/home/dev/dotfiles
 ARG dots_version=main
 RUN git clone https://github.com/bluebrown/dotfiles.git .
@@ -33,3 +32,11 @@ RUN git checkout $dots_version
 RUN make deps
 RUN make tools-base
 RUN make config-home
+
+# switch to the work dir, anticipating a bind mount
+WORKDIR /usr/home/dev/work
+VOLUME ["/usr/home/dev/work"]
+
+# login shell, for starship and co
+CMD ["/bin/bash", "-l"]
+
