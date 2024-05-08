@@ -14,34 +14,37 @@ ifneq ($(verbose),1)
 endif
 
 define latest_tag
-	$(shell curl -fsSL "https://api.github.com/repos/$(1)/releases/latest" | jq -r '.tag_name')
+$(shell curl -fsSL "https://api.github.com/repos/$(1)/releases/latest" | jq -r '.tag_name')
 endef
 
 ##@ Commands
 
 help: makehelp ## Show this help message
-	@makehelp $(MAKEFILE_LIST)
+	makehelp $(MAKEFILE_LIST)
 
 install: deps ## Install everything, requires sudo access
 	$(MAKE) runtimes
 	$(MAKE) tools
 	$(MAKE) config
 
-deps: deps-apt ## Install all dependencies
-
-runtimes: go rust zig otp node lua ## Install runtimes, requires sudo access
+config: config-home ## Sync config files
 
 tools: tools-base tools-k8s ## Install all tools
 
-config: config-home ## Sync config files
+runtimes:  ## Install runtimes, requires sudo access
+	$(MAKE) python
+	$(MAKE) node
+	$(MAKE) go rust zig lua otp
+
+deps: deps-apt ## Install all dependencies
 
 ##@ Config files
 
 config-home: ## sync the fsys/home dir to the user's home directory
 	mkdir -p ~/.bash_completion.d
 	rsync -av fsys/home/ ~
-	if ! git config --global user.name '$(GIT_USER_NAME)'; then echo '$$GIT_USER_NAME not set'; fi
-	if ! git config --global user.email '$(GIT_USER_EMAIL)'; then echo '$$GIT_USER_EMAIL not set'; fi
+	if ! git config --global user.name  $(GIT_USER_NAME);  then echo '$$GIT_USER_NAME not set'; fi
+	if ! git config --global user.email $(GIT_USER_EMAIL); then echo '$$GIT_USER_EMAIL not set'; fi
 
 ###@ Dependencies
 
@@ -60,6 +63,17 @@ deps-apt: ## Install apt dependencies
 		$(pkgs_nvim) $(pkgs_lua) $(pkgs_otp)
 
 ###@ Runtimes
+
+python: /usr/bin/python3 ## install python3
+/usr/bin/python3:
+	sudo apt-get -y  install python3
+	sudo apt-get -y  install python3-pip python3-venv
+
+node: /usr/bin/node ## install evergreen node version
+/usr/bin/node:
+	curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+	sudo apt-get install -y nodejs
+	sudo npm -g set prefix ~/.local
 
 go: /usr/local/go/bin/go ## install evergreen go version
 /usr/local/go/bin/go:
@@ -88,13 +102,6 @@ otp: /usr/local/otp/bin/erl ## install latest erlang otp
 	tar -xzf otp-src.tgz
 	cd otp-$($@_tag) && ./configure --prefix=/usr/local/otp && $(MAKE) && sudo $(MAKE) install
 	rm -rf otp-*
-
-node: /usr/bin/node ## install evergreen node version
-/usr/bin/node:
-	curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-	sudo apt-get install -y nodejs
-	sudo npm -g set prefix ~/.local
-	npm install --global neovim
 
 lua: /usr/local/lua/bin/lua ## install lua 5.1.5
 /usr/local/lua/bin/lua:
