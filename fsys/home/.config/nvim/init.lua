@@ -107,13 +107,15 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 later(function() add("github/copilot.vim") end)
 
--- mini plugins collections
-now(function() add("echasnovski/mini.nvim") end)
-
 -- theme
 now(function()
   add("catppuccin/nvim")
   vim.cmd.colorscheme("catppuccin")
+end)
+
+now(function()
+  add("williamboman/mason.nvim")
+  require("mason").setup()
 end)
 
 -- syntax highlighting
@@ -150,6 +152,8 @@ now(function()
   lc.rust_analyzer.setup({})
   lc.clangd.setup({ capabilities = { offsetEncoding = "utf-8" } })
   lc.asm_lsp.setup({})
+  lc.pyright.setup({})
+  lc.bashls.setup({})
 end)
 
 -- linter
@@ -157,7 +161,7 @@ later(function()
   add("mfussenegger/nvim-lint")
   require("lint").linters_by_ft = {
     sh = { "shellcheck" },
-    --    markdown = { "markdownlint" },
+    markdown = { "markdownlint" },
     terraform = { "tflint", "tfsec" },
   }
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -173,6 +177,8 @@ later(function()
   require("conform").setup({
     formatters_by_ft = {
       lua = { "stylua" },
+      sh = { "shfmt" },
+      asm = { "asmfmt" },
       go = { "gofmt", "goimports" },
       python = { "isort", "black" },
     },
@@ -186,6 +192,9 @@ later(function()
     end,
   })
 end)
+
+-- mini plugins collections
+later(function() add("echasnovski/mini.nvim") end)
 
 -- show git diff
 later(function() require("mini.diff").setup() end)
