@@ -160,8 +160,8 @@ end)
 later(function()
   add("mfussenegger/nvim-lint")
   require("lint").linters_by_ft = {
-    sh = { "shellcheck" },
     markdown = { "markdownlint" },
+    sh = { "shellcheck" },
     terraform = { "tflint", "tfsec" },
   }
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -177,6 +177,7 @@ later(function()
   require("conform").setup({
     formatters_by_ft = {
       lua = { "stylua" },
+      markdown = { "markdownlint" },
       sh = { "shfmt" },
       asm = { "asmfmt" },
       go = { "gofmt", "goimports" },

@@ -5,9 +5,9 @@
 
 set -e
 
-git clone https://github.com/bluebrown/dotfiles.git ~/.dotfiles
+git clone https://github.com/bluebrown/dotfiles.git ~/dotfiles
 
-cd ~/.dotfiles
+cd ~/dotfiles
 
-make -j$(nproc) install
+make install
 
