@@ -145,7 +145,8 @@ now(function()
   -- [d and ]d  : previous and next diagnostic
   -- only set some missing ones
   vim.keymap.set("n", "cq", vim.diagnostic.setloclist)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+  vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end)
+  vim.keymap.set("n", "gr", function() require("telescope.builtin").lsp_references() end)
   -- NOTE: servers have to be installed manually!
   lc.gopls.setup({})
   lc.zls.setup({})
