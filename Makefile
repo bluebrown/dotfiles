@@ -34,7 +34,7 @@ tools: tools-base tools-k8s ## Install all tools
 runtimes:  ## Install runtimes, requires sudo access
 	$(MAKE) python
 	$(MAKE) node
-	$(MAKE) go rust zig lua otp
+	$(MAKE) go zig rust
 
 deps: deps-apt ## Install all dependencies
 
@@ -54,7 +54,7 @@ pkgs_dev  = man bash-completion net-tools rsync parallel entr
 pkgs_net  = dnsutils iputils-ping netcat-openbsd nmap socat tcpdump traceroute
 pkgs_lua  = libreadline-dev
 pkgs_otp  = libssl-dev
-pkgs_nvim = fswatch shellcheck
+pkgs_nvim = fswatch
 
 deps-apt: ## Install apt dependencies
 	sudo apt-get update
