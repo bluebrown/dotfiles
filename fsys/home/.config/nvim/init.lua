@@ -183,6 +183,7 @@ later(function()
       asm = { "asmfmt" },
       go = { "gofmt", "goimports" },
       python = { "isort", "black" },
+      c = { "clang-format" },
     },
     notify_on_error = false,
     format_on_save = function(buf)
