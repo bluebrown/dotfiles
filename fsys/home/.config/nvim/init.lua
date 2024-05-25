@@ -153,14 +153,12 @@ now(function()
   -- https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp.lua#L336.
   -- currently additional default mapping being discussed:
   -- https://github.com/neovim/neovim/pull/28650/files.
-  -- these mappings here align with the new ones, and should be removed at some point
-  vim.keymap.set("n", "grn", function() vim.lsp.buf.rename() end, { desc = "vim.lsp.buf.rename()" })
-  vim.keymap.set({ "n", "x" }, "gra", function() vim.lsp.buf.code_action() end, { desc = "vim.lsp.buf.code_action()" })
-  vim.keymap.set("n", "grr", function() vim.lsp.buf.references() end, { desc = "vim.lsp.buf.references()" })
-  vim.keymap.set("i", "<C-S>", function() vim.lsp.buf.signature_help() end, { desc = "vim.lsp.buf.signature_help()" })
-
   -- these are custom
-  vim.keymap.set("n", "grq", function() vim.diagnostic.setqflist() end, { desc = "vim.diagnostic.setqflist()" })
+  vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help)
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+  vim.keymap.set("n", "gr", vim.lsp.buf.references)
+  vim.keymap.set("n", "crn", vim.lsp.buf.rename)
+  vim.keymap.set("n", "gq", vim.diagnostic.setqflist)
 end)
 
 -- linter
