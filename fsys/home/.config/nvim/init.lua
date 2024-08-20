@@ -146,7 +146,6 @@ now(function()
   lc.rust_analyzer.setup({})
   lc.clangd.setup({ capabilities = { offsetEncoding = "utf-8" } })
   lc.bashls.setup({})
-  lc.asm_lsp.setup({})
   lc.pyright.setup({})
 
   -- there are already stable lsp defaults:
@@ -158,7 +157,7 @@ now(function()
   vim.keymap.set("n", "gd", vim.lsp.buf.definition)
   vim.keymap.set("n", "gr", vim.lsp.buf.references)
   vim.keymap.set("n", "crn", vim.lsp.buf.rename)
-  vim.keymap.set("n", "gq", vim.diagnostic.setqflist)
+  vim.keymap.set("n", "cq", vim.diagnostic.setqflist)
 end)
 
 -- linter
@@ -210,7 +209,23 @@ later(function() require("mini.diff").setup() end)
 -- buffer based file edits
 now(function()
   add("stevearc/oil.nvim")
-  require("oil").setup()
+  require("oil").setup({
+    default_file_explorer = true,
+    delete_to_trash = true,
+    skip_confirm_for_simple_edits = true,
+    view_options = {
+      show_hidden = true,
+      natural_order = true,
+      is_always_hidden = function(name, _)
+        if string.match(name, "%.[do]") then return true end
+        if name == ".." then return true end
+        if name == ".git" then return true end
+      end,
+    },
+    win_options = {
+      wrap = true,
+    },
+  })
   vim.keymap.set("n", "-", "<CMD>Oil<CR>")
 end)
 
@@ -245,10 +260,10 @@ later(function()
   pcall(require("telescope").load_extension, "fzf")
   pcall(require("telescope").load_extension, "ui-select")
   local builtin = require("telescope.builtin")
+  vim.keymap.set("n", "<leader>ss", builtin.builtin)
   vim.keymap.set("n", "<leader>sh", builtin.help_tags)
   vim.keymap.set("n", "<leader>sk", builtin.keymaps)
   vim.keymap.set("n", "<leader>sf", builtin.find_files)
-  vim.keymap.set("n", "<leader>ss", builtin.builtin)
   vim.keymap.set("n", "<leader>sw", builtin.grep_string)
   vim.keymap.set("n", "<leader>sg", builtin.live_grep)
   vim.keymap.set("n", "<leader>sd", builtin.diagnostics)
