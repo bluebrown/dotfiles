@@ -92,12 +92,17 @@ if vim.fn.has("wsl") then
 end
 
 --@ plugins
-
 local path_package = vim.fn.stdpath("data") .. "/site/"
 local mini_path = path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
   vim.cmd('echo "Installing `mini.nvim`" | redraw')
-  local clone_cmd = { "git", "clone", "--filter=blob:none", "https://github.com/echasnovski/mini.nvim", mini_path }
+  local clone_cmd = {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/echasnovski/mini.nvim",
+    mini_path,
+  }
   vim.fn.system(clone_cmd)
   vim.cmd("packadd mini.nvim | helptags ALL")
   vim.cmd('echo "Installed `mini.nvim`" | redraw')
@@ -105,17 +110,73 @@ end
 require("mini.deps").setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
-later(function() add("github/copilot.vim") end)
-
--- theme
+-- style
 now(function()
   add("catppuccin/nvim")
+  require("catppuccin").setup({
+    transparent_background = true,
+    show_end_of_buffer = true,
+    term_colors = true,
+    default_integrations = true,
+    integrations = {
+      treesitter = true,
+      cmp = true,
+      native_lsp = {
+        enabled = true,
+        inlay_hints = {
+          background = true,
+        },
+      },
+    },
+  })
   vim.cmd.colorscheme("catppuccin")
 end)
 
+-- extra styles
+later(function()
+  vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+  vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+  vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+  vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+  local winconf = { border = "rounded", max_width = 80 }
+
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, winconf)
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, winconf)
+
+  vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    update_in_insert = false,
+    underline = true,
+    severity_sort = true,
+    float = winconf,
+  })
+
+  local ok, lcfg = pcall(require, "lspconfig.ui.windows")
+  if ok then lcfg.default_opts({ border = winconf.border }) end
+end)
+
+-- buffer based file edits
 now(function()
-  add("williamboman/mason.nvim")
-  require("mason").setup()
+  add("stevearc/oil.nvim")
+  require("oil").setup({
+    default_file_explorer = true,
+    delete_to_trash = true,
+    skip_confirm_for_simple_edits = true,
+    view_options = {
+      show_hidden = true,
+      natural_order = true,
+      is_always_hidden = function(name, _)
+        if name == ".." then return true end
+        if name == ".git" then return true end
+      end,
+    },
+    win_options = {
+      wrap = true,
+    },
+  })
+  vim.keymap.set("n", "-", "<CMD>Oil<CR>")
 end)
 
 -- syntax highlighting
@@ -134,6 +195,11 @@ later(function()
   })
 end)
 
+now(function()
+  add("williamboman/mason.nvim")
+  require("mason").setup()
+end)
+
 -- langauge server
 -- needs to load early so lsp attach runs on first bufEnter
 now(function()
@@ -142,22 +208,14 @@ now(function()
   --
   -- NOTE: servers have to be installed manually!
   lc.gopls.setup({})
-  lc.zls.setup({})
-  lc.rust_analyzer.setup({})
-  lc.clangd.setup({ capabilities = { offsetEncoding = "utf-8" } })
-  lc.bashls.setup({})
-  lc.pyright.setup({})
 
-  -- there are already stable lsp defaults:
-  -- https://github.com/neovim/neovim/blob/master/runtime/lua/vim/lsp.lua#L336.
-  -- currently additional default mapping being discussed:
-  -- https://github.com/neovim/neovim/pull/28650/files.
-  -- these are custom
-  vim.keymap.set("i", "<C-S>", vim.lsp.buf.signature_help)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references)
-  vim.keymap.set("n", "crn", vim.lsp.buf.rename)
-  vim.keymap.set("n", "cq", vim.diagnostic.setqflist)
+  -- - "K" is mapped in Normal mod to |vim.lsp.buf.hover()|
+  -- - "grn" is mapped in Normal mode to |vim.lsp.buf.rename()|
+  -- - "gra" is mapped in Normal and Visual mode to |vim.lsp.buf.code_action()|
+  -- - "grr" is mapped in Normal mode to |vim.lsp.buf.references()|
+  -- - CTRL-S is mapped in Insert mode to |vim.lsp.buf.signature_help()|
+  vim.keymap.set("n", "grd", vim.lsp.buf.definition)
+  vim.keymap.set("n", "grq", vim.diagnostic.setqflist)
 end)
 
 -- linter
@@ -182,12 +240,11 @@ later(function()
     formatters_by_ft = {
       lua = { "stylua" },
       markdown = { "markdownlint" },
+      json = { "jq" },
       sh = { "shfmt" },
-      asm = { "asmfmt" },
+      c = { "clang-format" },
       go = { "gofmt", "goimports" },
       python = { "isort", "black" },
-      c = { "clang-format" },
-      nix = { "nixpkgs-fmt" },
     },
     notify_on_error = false,
     format_on_save = function(buf)
@@ -199,38 +256,6 @@ later(function()
     end,
   })
 end)
-
--- mini plugins collections
-later(function() add("echasnovski/mini.nvim") end)
-
--- show git diff
-later(function() require("mini.diff").setup() end)
-
--- buffer based file edits
-now(function()
-  add("stevearc/oil.nvim")
-  require("oil").setup({
-    default_file_explorer = true,
-    delete_to_trash = true,
-    skip_confirm_for_simple_edits = true,
-    view_options = {
-      show_hidden = true,
-      natural_order = true,
-      is_always_hidden = function(name, _)
-        if string.match(name, "%.[do]") then return true end
-        if name == ".." then return true end
-        if name == ".git" then return true end
-      end,
-    },
-    win_options = {
-      wrap = true,
-    },
-  })
-  vim.keymap.set("n", "-", "<CMD>Oil<CR>")
-end)
-
--- auto completion
-later(function() require("mini.completion").setup() end)
 
 -- fuzzy finder
 later(function()
@@ -291,3 +316,58 @@ later(function()
     end
   )
 end)
+
+later(function()
+  add("L3MON4D3/LuaSnip")
+  add("hrsh7th/nvim-cmp")
+  add("saadparwaiz1/cmp_luasnip")
+  add("hrsh7th/cmp-nvim-lsp")
+  add("hrsh7th/cmp-path")
+
+  local cmp = require("cmp")
+  local luasnip = require("luasnip")
+  luasnip.config.setup({})
+
+  local cmp_winconf = cmp.config.window.bordered({
+    winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+  })
+
+  cmp.setup({
+    window = {
+      completion = cmp_winconf,
+      documentation = cmp_winconf,
+    },
+    snippet = {
+      expand = function(args) luasnip.lsp_expand(args.body) end,
+    },
+    completion = { completeopt = "menu,menuone,noinsert" },
+
+    mapping = cmp.mapping.preset.insert({
+      ["<C-n>"] = cmp.mapping.select_next_item(),
+      ["<C-p>"] = cmp.mapping.select_prev_item(),
+      ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+      ["<C-Space>"] = cmp.mapping.complete({}),
+
+      ["<C-l>"] = cmp.mapping(function()
+        if luasnip.expand_or_locally_jumpable() then luasnip.expand_or_jump() end
+      end, { "i", "s" }),
+
+      ["<C-h>"] = cmp.mapping(function()
+        if luasnip.locally_jumpable(-1) then luasnip.jump(-1) end
+      end, { "i", "s" }),
+    }),
+    sources = {
+      { name = "nvim_lsp" },
+      { name = "luasnip" },
+      { name = "path" },
+    },
+  })
+end)
+
+-- mini plugins collections
+later(function() add("echasnovski/mini.nvim") end)
+
+-- show git diff
+later(function() require("mini.diff").setup() end)
