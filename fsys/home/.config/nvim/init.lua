@@ -132,18 +132,11 @@ now(function()
   vim.cmd.colorscheme("catppuccin")
 end)
 
--- extra styles
+-- diagnostics
 later(function()
-  vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-  vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-  vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-  vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-
   local winconf = { border = "rounded", max_width = 80 }
-
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, winconf)
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, winconf)
-
   vim.diagnostic.config({
     virtual_text = true,
     signs = true,
@@ -151,8 +144,15 @@ later(function()
     underline = true,
     severity_sort = true,
     float = winconf,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = "",
+        [vim.diagnostic.severity.WARN] = "",
+        [vim.diagnostic.severity.INFO] = "",
+        [vim.diagnostic.severity.HINT] = "󰌵",
+      },
+    },
   })
-
   local ok, lcfg = pcall(require, "lspconfig.ui.windows")
   if ok then lcfg.default_opts({ border = winconf.border }) end
 end)
@@ -216,6 +216,10 @@ now(function()
   -- - CTRL-S is mapped in Insert mode to |vim.lsp.buf.signature_help()|
   vim.keymap.set("n", "grd", vim.lsp.buf.definition)
   vim.keymap.set("n", "grq", vim.diagnostic.setqflist)
+
+  vim.keymap.set("n", "K", function()
+    if not vim.diagnostic.open_float() then vim.lsp.buf.hover() end
+  end)
 end)
 
 -- linter
