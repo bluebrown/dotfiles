@@ -1,0 +1,101 @@
+Github Pull Requests
+
+Git comes with a nice pull-request generation module, but github
+instead decided to replace it with their own totally inferior version.
+As a result, I consider github useless for these kinds of things. It's
+fine for hosting, but the pull requests and the online commit
+editing, are just pure garbage.
+
+Github UI Commits
+
+Commits done on github invariably have totally unreadable descriptions, because
+the github commit making thing doesn't do any of the simplest things that the
+kernel people expect from a commit message:
+
+    no "short one-line description in the first line"
+    no sane word-wrap of the long description you type: github commit
+    messages tend to be (if they have any description at all) one long
+    unreadable line.
+    no sign-offs etc that we require for kernel submissions.
+
+Word Wrapping
+
+
+Word-wrapping is a property of the text. And the tool you use to
+visualize things cannot know. End result: you do word-wrapping at the
+only stage where you can do it, namely when writing it. Not when
+showing it.
+
+Some things should not be word-wrapped. They may be some kind of
+quoted text - long compiler error messages, oops reports, whatever.
+Things that have a certain specific format.
+
+The tool displaying the thing can't know. The person writing the
+commit message can. End result: you'd better do word-wrapping at
+commit time, because that's the only time you know the difference.
+
+Sure, the alternative would be to have commit messages be some
+non-pure-textual format (html or similar). But no, that's not how git
+does things. Sure, technically it could, but realistically the rule is
+simple: we use 72-character columns for word-wrapping, except for
+quoted material that has a specific line format.
+
+(And the rule is not 80 characters, because you do want to allow the
+standard indentation from git log, and you do want to leave some room
+for quoting).
+
+Hosting
+
+I think github does a stellar job at the actual hosting part. I
+really do. There is no question in my mind that github is one of the
+absolute best places to host a project. It's fast, it's efficient, it
+works, and it's available to anybody.
+
+That's wonderful. I think github is absolutely lovely in many respects.
+
+And that then makes me really annoyed at the places where I think
+github does a subpar job: pull requests and committing changes using
+the web interface.
+
+Use These
+
+patch - email only
+    https://git-scm.com/docs/git-format-patch
+
+        git format patch main
+
+patch - hosting+email
+    https://git-scm.com/docs/git-request-pull
+
+        git request-pull main https://github.com/bluebrown/dotfiles.git HEAD
+        git request-pull main HEAD (for same origin)
+
+merge
+  https://git-scm.com/docs/git-apply
+
+        git apply 0001-feat-cool-feature.patch (on target branch)
+
+Other Tips
+
+I bet a lot of them don't even realize that git commit with the "-m" omitted
+just opens up COMMIT_EDITMSG in your editor. It isn't even very apparent (to
+newbies) of the 50-char title rule and 72-char every other line rule with
+commit messages.
+-pogo
+
+Do Read
+
+https://drewdevault.com/2018/07/02/Email-driven-git.html
+
+On the subject of composing replies, reviewing patches is quite easy with the
+email approach as well. Many bad, yet sadly popular email clients have
+popularized the idea that the sender’s message is immutable, encouraging you to
+top post and leave an endlessly growing chain of replies underneath your
+message. A secret these email clients have kept from you is that you are, in
+fact, permitted by the mail RFCs to edit the sender’s message as you please
+when replying - a style called bottom posting. I strongly encourage you to get
+comfortable doing this in general, but it’s essential when reviewing patches
+received over email.
+-drew
+
+
