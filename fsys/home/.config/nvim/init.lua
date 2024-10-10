@@ -233,7 +233,10 @@ later(function()
   local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
     group = lint_augroup,
-    callback = function() require("lint").try_lint() end,
+    callback = function()
+      require("lint").try_lint()
+      require("lint").try_lint("codespell")
+    end,
   })
 end)
 
