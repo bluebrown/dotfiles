@@ -66,12 +66,14 @@ deps-apt: ## Install apt dependencies
 
 python: /usr/bin/python3 ## install python3
 /usr/bin/python3:
-	sudo apt-get -y  install python3
-	sudo apt-get -y  install python3-pip python3-venv
+	sudo apt-get -y install python3
+	sudo apt-get -y install python3-pip python3-venv
 
 node: /usr/bin/node ## install evergreen node version
 /usr/bin/node:
-	curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+	curl -fsSLO https://deb.nodesource.com/setup_lts.x
+	sudo -E bash setup_lts.x
+	rm -f setup_lts.x
 	sudo apt-get install -y nodejs
 	sudo npm -g set prefix ~/.local
 
