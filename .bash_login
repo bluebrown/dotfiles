@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-alias cfg='git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME"'
+alias cfg='git --git-dir="$HOME/.config/dotfiles.git/" --work-tree="$HOME"'
 
 if [ -f "$HOME/.profile" ]; then
   . "$HOME/.profile"

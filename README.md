@@ -8,17 +8,17 @@ The bare repo is cloned to get access the the repos metadata. For the
 first time, git also supports the --bare flag for the init command.
 
     # init repo
-    git init --bare ~/.dotfiles
+    git init --bare ~/.config/dotfiles
 
     # or clone an existing repo
-    git clone --bare git@github.com:bluebrown/dotfiles.git .dotfiles.git 
+    git clone --bare git@github.com:bluebrown/dotfiles.git .config/dotfiles.git 
 
 Afterwards, the --git-dir and --work-tree options are used to set the
 working directory to the home directory and the git directory to the
 bare repo. This allows leads to the home folder being treated as a
 git repository.
 
-    alias cfg='git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME"'
+    alias cfg='git --git-dir="$HOME/.config/dotfiles.git/" --work-tree="$HOME"'
     cfg checkout
 
 Because of this, any changes have to be tracked via the --force flag, as
