@@ -11,7 +11,7 @@ first time, git also supports the --bare flag for the init command.
     git init --bare ~/.dotfiles
 
     # or clone an existing repo
-    git clone --bare git@github.com:bluebrown/.dotfiles.git 
+    git clone --bare git@github.com:bluebrown/dotfiles.git .dotfiles.git 
 
 Afterwards, the --git-dir and --work-tree options are used to set the
 working directory to the home directory and the git directory to the
