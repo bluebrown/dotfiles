@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-alias cfg='git --git-dir="$HOME/cfg.git/" --work-tree="$HOME"'
+alias cfg='git --git-dir="$HOME/.dotfiles.git/" --work-tree="$HOME"'
 
 if [ -f "$HOME/.profile" ]; then
-	. "$HOME/.profile"
+  . "$HOME/.profile"
 fi
 
 export PATH="$HOME/go/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
@@ -21,11 +21,11 @@ eval "$(direnv hook bash)"
 eval "$(fzf --bash)"
 
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
-	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [ -f "$HOME/.cargo/env" ]; then
-	. "$HOME/.cargo/env"
+  . "$HOME/.cargo/env"
 fi
 
 alias v="nvim"
