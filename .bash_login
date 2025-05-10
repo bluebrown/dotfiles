@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+alias cfg='git --git-dir="$HOME/cfg.git/" --work-tree="$HOME"'
+
+if [ -f "$HOME/.profile" ]; then
+  . "$HOME/.profile"
+fi
+
+export PATH="$HOME/go/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
+export EDITOR=nvim
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+export MANROFFOPT="-c"
+export HOMEBREW_NO_ANALYTICS=1
+
+eval "$(starship init bash)"
+eval "$(direnv hook bash)"
+eval "$(fzf --bash)"
+
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
+fi
+
+alias v="nvim"
+alias d="docker"
+alias dc="docker compose"
+alias k="kubectl"
+alias ksc="k config use-context"
+alias ksn="k config set-context --current --namespace"
+alias kz="kustomize"
+alias kb="kustomize build"
+alias tf="terraform"
+
+alias bat="batcat"
+alias fd="fdfind"
+alias ls="lsd"
+alias gu="gitui"
+alias tree="lsd -A -I .git --tree"
+
+alias sf='fd --type f --hidden --exclude .git --print0 |
+	fzf -- --read0 --print0 --exit-0 --preview "batcat --color=always --style=numbers --line-range=:500 {}" |
+	xargs -r -0 -o ${EDITOR:-vim}'
+
+alias pubip='dig +short myip.opendns.com @resolver1.opendns.com'

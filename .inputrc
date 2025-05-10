@@ -1,0 +1,27 @@
+# Be 8 bit clean.
+set input-meta on
+set output-meta on
+
+# do not bell on tab-completion
+set bell-style none
+# set bell-style visible
+
+# search history based on partial inputs
+# i.e ls followed by the up arrow will cycle
+# through all commands that start with ls
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Show tab-completion options on first <tab> instead of waiting
+# for multiple completions.
+set show-all-if-ambiguous on
+
+# Case insensitive tab-completion
+set completion-ignore-case on
+
+$if Bash
+# In bash only, enable "magic space" so that typing space
+# will show completions. i.e. !!_ (where _ is space)
+# will expand !! for you.
+Space: magic-space
+$endif

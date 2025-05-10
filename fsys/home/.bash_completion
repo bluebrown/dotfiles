@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# source all files in ~/.bash_completion.d
-# this allows for easy addition of new completion scripts
-
-for f in ~/.bash_completion.d/*; do
-  [[ -f $f ]] && source $f
-done

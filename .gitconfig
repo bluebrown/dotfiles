@@ -1,0 +1,9 @@
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[core]
+	autocrlf = input
+	whitespace = trailing-space,space-before-tab,indent-with-non-tab
+[alias]
+	append = !git add $1 && git commit --amend --no-edit

@@ -1,0 +1,21 @@
+return {
+  LuaSnip = "c9b9a22904c97d0eb69ccb9bab76037838326817",
+  ["cmp-nvim-lsp"] = "a8912b88ce488f411177fc8aed358b04dc246d7b",
+  ["cmp-path"] = "c6635aae33a50d6010bf1aa756ac2398a2d54c32",
+  cmp_luasnip = "98d9cb5c2c38532bd9bdb481067b20fea8f32e90",
+  ["conform.nvim"] = "6632e7d788a85bf8405ea0c812d343fc308b7b8c",
+  ["mason.nvim"] = "fc98833b6da5de5a9c5b1446ac541577059555be",
+  ["mini.nvim"] = "a8b1d74f45dadf3554c0eed784c6ccd8ade67883",
+  ["nvim-cmp"] = "b5311ab3ed9c846b585c0c15b7559be131ec4be9",
+  ["nvim-lint"] = "3615c26c4922ae5f7366f0c1943a0e7cece04325",
+  ["nvim-lspconfig"] = "49c1268b99dab89671010673ed57980188cd00a0",
+  ["nvim-treesitter"] = "684eeac91ed8e297685a97ef70031d19ac1de25a",
+  ["oil.nvim"] = "302bbaceeafc690e6419e0c8296e804d60cb9446",
+  ["plenary.nvim"] = "857c5ac632080dba10aae49dba902ce3abf91b35",
+  ["telescope-fzf-native.nvim"] = "1f08ed60cafc8f6168b72b80be2b2ea149813e55",
+  ["telescope-ui-select.nvim"] = "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
+  ["telescope.nvim"] = "a4ed82509cecc56df1c7138920a1aeaf246c0ac5",
+  ["todo-comments.nvim"] = "304a8d204ee787d2544d8bc23cd38d2f929e7cc5",
+  ["tokyonight.nvim"] = "057ef5d260c1931f1dffd0f052c685dcd14100a3",
+  ["vim-sleuth"] = "be69bff86754b1aa5adcbb527d7fcd1635a84080"
+}

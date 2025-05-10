@@ -1,0 +1,5 @@
+syntax = "Lua52"
+quote_style = "ForceDouble"
+collapse_simple_statement = "Always"
+indent_type = "Spaces"
+indent_width = 2
