@@ -15,6 +15,7 @@ return {
     "gopls",
     "pyright",
     "rust_analyzer",
+    "lua_ls",
   },
   lint = {
     markdown = { "markdownlint" },

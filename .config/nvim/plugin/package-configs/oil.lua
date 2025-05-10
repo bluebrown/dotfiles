@@ -15,8 +15,6 @@ plugin.setup({
     is_always_hidden = function(name, _)
       if name == ".." then return true end
       if name == ".git" then return true end
-      vim.fn.system("git check-ignore -q " .. name)
-      if vim.v.shell_error == 0 then return true end
     end,
   },
   win_options = {
