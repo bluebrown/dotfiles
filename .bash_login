@@ -38,7 +38,7 @@ alias kz="kustomize"
 alias kb="kustomize build"
 alias tf="terraform"
 
-alias bat="batcat"
+alias cat="batcat"
 alias fd="fdfind"
 alias ls="lsd"
 alias gu="gitui"

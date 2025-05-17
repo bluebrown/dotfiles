@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+adjective=$(grep -E 'able$|al$|ant$|ary$|ed$|ful$|ic$|ing$|ish$|ive$|less$|ly$|ous$' /usr/share/dict/words | shuf -n 1)
+
+noun=$(grep -E 'age$|ance$|ant$|ee$|ence$|er$|or$|ery$|ess$|ion$|ism$|ist$|ment$|ness$' /usr/share/dict/words | shuf -n 1)
+
+tr '[:upper:]' '[:lower:]' <<<"$adjective-$noun" | tr -d '\n'
