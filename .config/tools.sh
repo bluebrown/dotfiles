@@ -36,11 +36,19 @@ curl -fsSL "$FZF_URL" | tar -C "$BIN_DIR" -xzf - "$FZF_BIN"
 
 # ripgrep
 RIPGREP_VERSION="14.1.1"
-RIPGREP_RELEASE="ripgrep-${RIPGREP_VERSION}-x86_64-unknown-linux-musl"
+RIPGREP_RELEASE="ripgrep-${RIPGREP_VERSION}-x86_64-unknown-linux-gnu"
 RIPGREP_URL="https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSION}/${RIPGREP_RELEASE}.tar.gz"
 RIPGREP_BIN="${RIPGREP_RELEASE}/rg"
 
 curl -fsSL "$RIPGREP_URL" | tar -C "$BIN_DIR" --strip-components 1 -xzf - "$RIPGREP_BIN"
+
+# fd
+FD_VERSION="10.2.0"
+FD_RELEASE="fd-v${FD_VERSION}-x86_64-unknown-linux-gnu"
+FD_URL="https://github.com/sharkdp/fd/releases/download/${FD_VERSION}/${FD_RELEASE}.tar.gz"
+FD_BIN="${FD_RELEASE}/fd"
+
+curl -fsSL "$FD_URL" | tar -C "$BIN_DIR" --strip-components 1 -xzf - "$FD_BIN"
 
 # direnv
 DIRENV_VERSION="2.36.0"
