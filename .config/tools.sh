@@ -63,3 +63,32 @@ echo "install neovim"
 NEOVIM_URL="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
 
 curl -fsSL "$NEOVIM_URL" | tar -C "$PREFIX" --strip-components 1 -xzf -
+
+echo "install shellcheck"
+SHELLCHECK_VERSION="0.10.0"
+SHELLCHECK_RELEASE="shellcheck-v${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
+SHELLCHECK_URL="https://github.com/koalaman/shellcheck/releases/download/v${SHELLCHECK_VERSION}/${SHELLCHECK_RELEASE}"
+SHELLCHECK_BIN="shellcheck-v${SHELLCHECK_VERSION}/shellcheck"
+
+curl -fsSL "$SHELLCHECK_URL" | tar -C "$BIN_DIR" --strip-components 1 -xJf - "$SHELLCHECK_BIN"
+
+echo "install shfmt"
+SHFMT_VERSION="3.11.0"
+SHFMT_RELEASE="shfmt_v${SHFMT_VERSION}_linux_amd64"
+SHFMT_URL="https://github.com/mvdan/sh/releases/download/v${SHFMT_VERSION}/${SHFMT_RELEASE}"
+SHFMT_BIN="${BIN_DIR}/shfmt"
+
+curl -fsSL "$SHFMT_URL" -o "$SHFMT_BIN"
+chmod +x "$SHFMT_BIN"
+
+echo "install exa"
+EXA_VERSION="0.10.1"
+EXA_RELEASE="exa-linux-x86_64-v${EXA_VERSION}.zip"
+EXA_URL="https://github.com/ogham/exa/releases/download/v${EXA_VERSION}/${EXA_RELEASE}"
+EXA_BIN="bin/exa"
+
+tmpdir="$(mktemp -d)"
+mkdir -p "$tmpdir"
+trap 'rm -rf "$tmpdir"' EXIT
+curl -fsSL "$EXA_URL" -o "${tmpdir}/${EXA_RELEASE}"
+unzip "${tmpdir}/${EXA_RELEASE}" -d "$PREFIX" "${EXA_BIN}"

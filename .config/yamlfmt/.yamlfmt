@@ -1,8 +1,7 @@
 # vi:ft=yaml:
----
 formatter:
   type: basic
-  include_document_start: true
+  include_document_start: false
   retain_line_breaks_single: true
   eof_newline: true
   scan_folded_as_literal: true
