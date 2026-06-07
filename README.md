@@ -30,7 +30,7 @@ kubectl completion bash > kubectl
 complete -p | grep kubectl
 ```
 
-Use the function fould by complete -p to create a new completion
+Use the function found by complete -p to create a new completion
 triggered by the alias. The original script is sourced first, to avoid
 ordering issues when loading the completions.
 

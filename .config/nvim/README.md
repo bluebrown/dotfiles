@@ -57,11 +57,11 @@ action menu, offering actions by the LSP. Some of the actions have
 dedicated keymaps. For example, in `normal mode`, `grn` renames the
 token across the entire workspace.
 
-Refrences and implementations can be found with `grr` and `gri`, 
+Refeerences and implementations can be found with `grr` and `gri`, 
 and `grt` shows the type definition.
 
 # Syntax Highlighting
 
-To install additonal sytanx, list them in the
+To install additional sytanx, list them in the
 (settings.lua)[./lua/settings.lua] file, in order to ensure both the
 parser and the file type auto command are installed.
