@@ -1,31 +1,27 @@
 #!/usr/bin/env bash
 
-alias cfg='git --git-dir="$HOME/.config/dotfiles.git/" --work-tree="$HOME"'
+alias cfg='git --git-dir "$HOME/dotfiles.git" --work-tree "$HOME"'
 
 if [ -f "$HOME/.profile" ]; then
-	. "$HOME/.profile"
+  . "$HOME/.profile"
 fi
 
 export PATH="$HOME/go/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
-export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
-
 export EDITOR=nvim
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 export MANROFFOPT="-c"
 export HOMEBREW_NO_ANALYTICS=1
-export GEM_HOME="$HOME/.local"
-export GEMRC="$HOME/.config/.gemrc"
 
 eval "$(starship init bash)"
 eval "$(direnv hook bash)"
 eval "$(fzf --bash)"
 
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
-	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 if [ -f "$HOME/.cargo/env" ]; then
-	. "$HOME/.cargo/env"
+  . "$HOME/.cargo/env"
 fi
 
 alias v="nvim"
@@ -38,14 +34,14 @@ alias kz="kustomize"
 alias kb="kustomize build"
 alias tf="terraform"
 
-alias cat="bat"
+alias bat="batcat"
 alias fd="fdfind"
 alias ls="lsd"
 alias gu="gitui"
 alias tree="lsd -A -I .git --tree"
 
 alias sf='fd --type f --hidden --exclude .git --print0 |
-	fzf -- --read0 --print0 --exit-0 --preview "bat --color=always --style=numbers --line-range=:500 {}" |
+	fzf -- --read0 --print0 --exit-0 --preview "batcat --color=always --style=numbers --line-range=:500 {}" |
 	xargs -r -0 -o ${EDITOR:-vim}'
 
 alias pubip='dig +short myip.opendns.com @resolver1.opendns.com'

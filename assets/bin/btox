@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-printf "%x" "$((2#${1//_/}))"

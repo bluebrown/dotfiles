@@ -120,15 +120,3 @@ endfunction
 
 set noshowmode laststatus=2
 set statusline=%!MyStatusline()
-
-" WIP
-
-" ff is aliased to `fd --type f --hidden --exclude .git --print0 | fzf-tmux -p -- --read0 --print0 --exit-0 | xargs -r -0 -o ${EDITOR:-vim}'
-
-" fuzzy finder
-function! FindFuzzy(dir)
-  :execute "!fd --type f " . a:dir . " | fzf-tmux"
-endfunction
-
-:command! -nargs=1 FindFuzzy :call FindFuzzy(<q-args>)
-

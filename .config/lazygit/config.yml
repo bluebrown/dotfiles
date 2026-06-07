@@ -1,9 +1,0 @@
-git:
-  commit:
-    signOff: true
-os:
-  editProfile: nvim
-gui:
-  nerdFontsVersion: 3
-  showBottomLine: false
-

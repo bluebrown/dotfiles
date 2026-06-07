@@ -1,5 +1,12 @@
 # Cheat Sheet
 
+> [!NOTE]  
+> Installation of nvim requires so manual steps. Not fully automated!
+
+## Folds
+
+Use `zo` and `zc` to open and close folds.
+
 ## File Navigation
 
 In `normal mode`, the oil buffer can bed opened with `-`. Pressing `-`
@@ -7,9 +14,11 @@ multiple times will traverse upwards. Oil buffer can be edited like a
 normal buffer. Pressing `Enter`, open the file or directory under the
 cursor.
 
+Hidden files can be toggled with `g.`.
+
 ## Code Completion
 
-In `insert mode`, when typing, completion menu will automaically open.
+In `insert mode`, when typing, completion menu will automatically open.
 This can also be forced with `CTRL-Space`.
 
 Select choice with `CTRL-N` (next) and `CTRL-P`(previous) and confirm
@@ -33,9 +42,12 @@ opens the signature help below the signature.
 ## Diagnostics
 
 The next and previous diagnostic can be cycled with `[d` and `[D`,
-respectively. The following custom keymaps have been set.
+respectively. The following custom keymaps have been set. `CTRL+W-D`
+opens a floating window for the diagnostics.
 
-    vim.keymap.set("n", "grf", vim.diagnostic.open_float)
+Additionally this custom keybinding opens all diagnostics in the quick
+fix list.
+
     vim.keymap.set("n", "grq", vim.diagnostic.setqflist)
 
 ## Code Actions
@@ -45,14 +57,11 @@ action menu, offering actions by the LSP. Some of the actions have
 dedicated keymaps. For example, in `normal mode`, `grn` renames the
 token across the entire workspace.
 
-Refrences and implementations can be found with `grr` and `gri`.
-however, definitions and declarations dont have a built in keymap.
+Refrences and implementations can be found with `grr` and `gri`, 
+and `grt` shows the type definition.
 
-    vim.keymap.set("n", "grd", vim.lsp.buf.definition)
-    vim.keymap.set("n", "grD", vim.lsp.buf.declaration)
+# Syntax Highlighting
 
-## Syntax Highlighting
-
-Install additional grammars for treesitter.
-
-    :TSInstall toml yaml json
+To install additonal sytanx, list them in the
+(settings.lua)[./lua/settings.lua] file, in order to ensure both the
+parser and the file type auto command are installed.
