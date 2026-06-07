@@ -1,0 +1,12 @@
+services:
+  box:
+    command: sleep inf
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - local:/usr/home/dev/.local:rw,delegated
+      - .:/usr/home/dev/work:rw,delegated
+
+volumes:
+  local:
