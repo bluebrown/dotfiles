@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-mkdir -p .local
+mkdir -p .local/bin
 cd .local/
 
 cargo install stylua --features luajit
