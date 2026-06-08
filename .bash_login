@@ -1,20 +1,42 @@
 #!/usr/bin/env bash
 
-alias cfg='git --git-dir "$HOME/dotfiles.git" --work-tree "$HOME"'
-
 if [ -f "$HOME/.profile" ]; then
   . "$HOME/.profile"
 fi
 
+function has() {
+  hash "$1" 2>/dev/null
+}
+
 export PATH="$HOME/go/bin:/usr/local/go/bin:$HOME/.cargo/bin:$PATH"
-export EDITOR=nvim
-export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
-export MANROFFOPT="-c"
 export HOMEBREW_NO_ANALYTICS=1
 
-eval "$(starship init bash)"
-eval "$(direnv hook bash)"
-eval "$(fzf --bash)"
+if has nvim; then
+  export EDITOR=nvim
+else
+  export EDITOR=vi
+fi
+
+alias v="$EDITOR"
+
+if has batcat; then
+  export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+  export MANROFFOPT="-c"
+  alias bat="batcat"
+  alias cat="bat"
+fi
+
+if has starship; then
+  eval "$(starship init bash)"
+fi
+
+if has direnv; then
+  eval "$(direnv hook bash)"
+fi
+
+if has fzf; then
+  eval "$(fzf --bash)"
+fi
 
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
@@ -24,7 +46,15 @@ if [ -f "$HOME/.cargo/env" ]; then
   . "$HOME/.cargo/env"
 fi
 
-alias v="nvim"
+if has lsd; then
+  alias tree="lsd -A -I .git --tree"
+  alias ls="lsd"
+fi
+
+alias cfg='git --git-dir "$HOME/dotfiles.git" --work-tree "$HOME"'
+alias fd="fdfind"
+alias gu="gitui"
+
 alias d="docker"
 alias dc="docker compose"
 alias k="kubectl"
@@ -33,12 +63,6 @@ alias ksn="k config set-context --current --namespace"
 alias kz="kustomize"
 alias kb="kustomize build"
 alias tf="terraform"
-
-alias bat="batcat"
-alias fd="fdfind"
-alias ls="lsd"
-alias gu="gitui"
-alias tree="lsd -A -I .git --tree"
 
 alias sf='fd --type f --hidden --exclude .git --print0 |
 	fzf -- --read0 --print0 --exit-0 --preview "batcat --color=always --style=numbers --line-range=:500 {}" |
