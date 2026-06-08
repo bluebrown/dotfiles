@@ -1,12 +1,16 @@
-[init]
-        defaultBranch = main
-[pull]
-        rebase = true
-[core]
-        autocrlf = input
-        whitespace = trailing-space,space-before-tab,indent-with-non-tab
-[alias]
-        append = !git add $1 && git commit --amend --no-edit
 [user]
-        email = 39703898+bluebrown@users.noreply.github.com
-        name = bluebrown
+  name = bluebrown
+  email = 39703898+bluebrown@users.noreply.github.com
+[alias]
+  append = !git add $1 && git commit --amend --no-edit
+[core]
+  autocrlf = input
+  whitespace = trailing-space,space-before-tab,indent-with-non-tab
+[init]
+  defaultBranch = main
+[pull]
+  rebase = true
+[commit]
+  gpgsign = true
+[tag]
+	gpgSign = true

@@ -1,5 +1,9 @@
 # Dotfiles
 
+> [!NOTE]  
+> Changing to the testing repostitories is recommended:
+> <https://wiki.debian.org/DebianTesting>
+
 ## Config Files
 
     git clone --bare git@github.com:bluebrown/dotfiles.git
