@@ -31,7 +31,7 @@ for key, values in pairs(settings.format or {}) do
 end
 
 for tool, _ in pairs(want) do
-  if not vim.fn.executable(tool) == 1 then table.insert(need, tool) end
+  if vim.fn.executable(tool) ~= 1 then table.insert(need, tool) end
 end
 
 if #need > 0 then vim.cmd({ cmd = "MasonInstall", args = need }) end

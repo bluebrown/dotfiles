@@ -8,11 +8,9 @@ vim.diagnostic.config({
   virtual_lines = {
     current_line = true,
   },
-  signs = true,
   update_in_insert = false,
   underline = true,
   severity_sort = true,
-  float = winconf,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",
