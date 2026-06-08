@@ -4,7 +4,7 @@
 
     git clone --bare git@github.com:bluebrown/dotfiles.git 
     git --git-dir "$HOME/dotfiles.git" --work-tree="$HOME" checkout
-    dash -x .config/deps.sh
+    sudo bash -x .config/deps.sh
 
 ## Creating your own
 
