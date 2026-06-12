@@ -2,10 +2,10 @@ return {
   theme = "tokyonight",
   syntax = {
     "bash",
+    "python",
     "json",
     "yaml",
     "toml",
-    "python",
     "go",
   },
   lsp = {
@@ -15,11 +15,13 @@ return {
     sh = { "shellcheck" },
   },
   format = {
-    go = { "goimports" },
     sh = { "shfmt" },
-    lua = { "stylua" },
     json = { "jq" },
     yaml = { "yamlfmt" },
     toml = { "taplo" },
+    go = { "goimports" },
+    lua = { "stylua" },
+    markdown = { "mdformat" },
+    ["*"] = { "codespell" },
   },
 }
