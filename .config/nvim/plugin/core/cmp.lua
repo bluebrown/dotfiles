@@ -2,7 +2,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     local name, kind = ev.data.spec.name, ev.data.kind
     if name:lower() == "luasnip" and (kind == "install" or kind == "update") then
-      vim.print(vim.system({ "make", "install_jsregexp" }, { cwd = ev.data.path }):wait())
+      vim.system({ "make", "install_jsregexp" }, { cwd = ev.data.path })
     end
   end,
 })
