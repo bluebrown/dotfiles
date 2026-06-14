@@ -3,6 +3,7 @@ return {
   syntax = {
     "bash",
     "python",
+    "make",
     "json",
     "yaml",
     "toml",

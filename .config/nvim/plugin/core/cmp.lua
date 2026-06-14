@@ -31,7 +31,9 @@ luasnip.config.setup({})
 
 cmp.setup({
   snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
-  mapping = cmp.mapping.preset.insert({}),
+  mapping = cmp.mapping.preset.insert({
+    ["<C-Space>"] = cmp.mapping.complete({}),
+  }),
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },

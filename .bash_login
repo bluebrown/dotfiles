@@ -17,13 +17,13 @@ else
   export EDITOR=vi
 fi
 
-alias v="$EDITOR"
+alias v='"${EDITOR:-vi}"'
 
 if has batcat; then
   export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
   export MANROFFOPT="-c"
   alias bat="batcat"
-  alias cat="bat"
+  alias cat="bat --plain"
 fi
 
 if has starship; then
